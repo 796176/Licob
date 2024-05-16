@@ -11,8 +11,8 @@ public class Dimensions {
 	public static int FONT_SIZE_MEDIUM = 25;
 	public static int FONT_SIZE_SMALL = 18;
 	public static int INNER_COMPONENT_SPACING = 10;
-	public static int CONFIGURATION_FRAME_WIDTH = 2800;
-	public static int CONFIGURATION_FRAME_HEIGHT = 1900;
+	public static int CHAIN_CONFIGURATION_FRAME_WIDTH = 2800;
+	public static int CHAIN_CONFIGURATION_FRAME_HEIGHT = 1900;
 	public static int DEFAULT_COMPONENT_OFFSET = 25;
 	public static int CHAIN_CONFIGURATION_WIDTH = 2500;
 	public static int CHAIN_CONFIGURATION_HEIGHT = 1000;
@@ -21,4 +21,8 @@ public class Dimensions {
 	public static Dimension BACKUP_ITEM_CONTROL_BUTTON = new Dimension(140, 60);
 	public static Dimension BACKUP_ITEM = new Dimension(0, 260);
 	public static Dimension MAIN_FRAME_CONTROL_BUTTON = new Dimension(150, 60);
+	public static int DEFAULT_TEXT_SCROLL = 40;
+	public static int DEFAULT_PANEL_SCROLL = 80;
+	public static Dimension CHAIN_ITEM = new Dimension(0, 150);
+	public static int SMALL_COMPONENT_OFFSET = DEFAULT_COMPONENT_OFFSET / 3;
 }
