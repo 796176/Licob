@@ -15,5 +15,6 @@ public class LogArea extends JScrollPane {
 		textArea.setFont(Fonts.SMALL_MONO);
 		textArea.setEditable(false);
 		setViewportView(textArea);
+		setPreferredSize(getMinimumSize());
 	}
 }
