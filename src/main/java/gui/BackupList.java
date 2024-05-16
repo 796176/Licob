@@ -14,12 +14,16 @@ public class BackupList extends JScrollPane {
 		assert items != null;
 		backupItems = items;
 
-		JPanel innerPanel = new JPanel(new GridLayout(0, 1, 0, Dimensions.DEFAULT_COMPONENT_OFFSET));
+		JPanel innerPanel = new JPanel();
+		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 		innerPanel.setBackground(Colors.LAYER1);
 		setViewportView(innerPanel);
 		verticalScrollBar.setUnitIncrement(Dimensions.DEFAULT_PANEL_SCROLL);
 		for (BackupItem backupItem: items) {
 			innerPanel.add(backupItem);
+			if (backupItem != backupItems[backupItems.length - 1]){
+				innerPanel.add(Box.createRigidArea(new Dimension(0, Dimensions.DEFAULT_COMPONENT_OFFSET)));
+			}
 		}
 	}
 
