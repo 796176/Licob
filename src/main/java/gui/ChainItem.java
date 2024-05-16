@@ -11,6 +11,7 @@ public class ChainItem extends JPanel {
 	JButton remove;
 	public ChainItem(String type, String source, String destination) {
 		setMinimumSize(Dimensions.CHAIN_ITEM);
+		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.CHAIN_ITEM.height));
 		setPreferredSize(Dimensions.CHAIN_ITEM);
 		setBackground(Colors.LAYER2);
 		GridBagLayout bagLayout = new GridBagLayout();
