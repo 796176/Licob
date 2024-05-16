@@ -18,6 +18,7 @@ public class BackupList extends JScrollPane {
 		innerPanel.setLayout(new BoxLayout(innerPanel, BoxLayout.Y_AXIS));
 		innerPanel.setBackground(Colors.LAYER1);
 		setViewportView(innerPanel);
+		setPreferredSize(getMinimumSize());
 		verticalScrollBar.setUnitIncrement(Dimensions.DEFAULT_PANEL_SCROLL);
 		for (BackupItem backupItem: items) {
 			innerPanel.add(backupItem);
