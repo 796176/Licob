@@ -6,11 +6,9 @@ public class Dimensions {
 	public static int MAIN_FRAME_WIDTH = 2200;
 	public static int MAIN_FRAME_HEIGHT = 1400;
 	public static int LIST_PANEL_OFFSET = 25;
-	public static int MAIN_TEXT_AREA_VISIBLE_ROWS = 3;
 	public static int FONT_SIZE_LARGE = 32;
 	public static int FONT_SIZE_MEDIUM = 25;
 	public static int FONT_SIZE_SMALL = 18;
-	public static int INNER_COMPONENT_SPACING = 10;
 	public static int CHAIN_CONFIGURATION_FRAME_WIDTH = 2800;
 	public static int CHAIN_CONFIGURATION_FRAME_HEIGHT = 1900;
 	public static int DEFAULT_COMPONENT_OFFSET = 25;
