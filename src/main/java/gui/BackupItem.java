@@ -17,6 +17,7 @@ public class BackupItem extends JPanel {
 
 	public BackupItem(String name, int chainNumber, boolean bashScript, String date) {
 		setMinimumSize(Dimensions.BACKUP_ITEM);
+		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.BACKUP_ITEM.height));
 		setPreferredSize(Dimensions.BACKUP_ITEM);
 		setBackground(Colors.LAYER2);
 		GridBagLayout bagLayout = new GridBagLayout();
