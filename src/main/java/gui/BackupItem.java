@@ -9,9 +9,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class BackupItem extends JPanel {
-	JLabel name;
-	JLabel subtitle;
-	JLabel lastExecuted;
+	LLabel name;
+	LLabel subtitle;
+	LLabel lastExecuted;
 	JButton deleteButton;
 	JButton runButton;
 
@@ -28,24 +28,22 @@ public class BackupItem extends JPanel {
 		labelConstraints.gridwidth = GridBagConstraints.REMAINDER;
 		labelConstraints.weightx = 1;
 		labelConstraints.weighty = 2;
-		this.name = new JLabel(name);
-		this.name.setFont(Fonts.MEDIUM_DEFAULT);
-		this.name.setForeground(Colors.FONT_COLOR);
+		labelConstraints.insets =
+			new Insets(Dimensions.SMALL_COMPONENT_OFFSET, Dimensions.DEFAULT_COMPONENT_OFFSET, 0, 0);
+		this.name = new LLabel(name);
 		bagLayout.setConstraints(this.name, labelConstraints);
 		add(this.name);
 
 		labelConstraints.weighty = 1;
 		StringBuilder subtitle = new StringBuilder(chainNumber + Text.SUBTITLE_LABEL[0]);
 		if (bashScript) subtitle.append(Text.SUBTITLE_LABEL[1]);
-		this.subtitle = new JLabel(subtitle.toString());
+		this.subtitle = new LLabel(subtitle.toString());
 		this.subtitle.setFont(Fonts.SMALL_DEFAULT);
-		this.subtitle.setForeground(Colors.FONT_COLOR);
 		bagLayout.setConstraints(this.subtitle, labelConstraints);
 		add(this.subtitle);
 
-		lastExecuted = new JLabel(Text.LAST_EXECUTION_LABEL + " " + date);
+		lastExecuted = new LLabel(Text.LAST_EXECUTION_LABEL + " " + date);
 		lastExecuted.setFont(Fonts.SMALL_DEFAULT);
-		lastExecuted.setForeground(Colors.FONT_COLOR);
 		bagLayout.setConstraints(lastExecuted, labelConstraints);
 		add(lastExecuted);
 
@@ -55,9 +53,9 @@ public class BackupItem extends JPanel {
 		buttonConstraints.weighty = 10;
 		buttonConstraints.insets = new Insets(
 			0,
-			Dimensions.INNER_COMPONENT_SPACING,
-			Dimensions.INNER_COMPONENT_SPACING,
-			Dimensions.INNER_COMPONENT_SPACING
+			Dimensions.DEFAULT_COMPONENT_OFFSET,
+			Dimensions.SMALL_COMPONENT_OFFSET,
+			Dimensions.DEFAULT_COMPONENT_OFFSET
 		);
 		runButton = new JButton(Text.RUN_BUTTON);
 		runButton.setMinimumSize(Dimensions.BACKUP_ITEM_CONTROL_BUTTON);
