@@ -17,4 +17,6 @@ public class Colors {
 	public static Color RUN_BUTTON_COLOR = new Color(0x1dbd1d);
 	public static Color DELETE_BUTTON_COLOR = new Color(0xb30303);
 	public static Color SCRIPT_AREA_COLOR = new Color(0x1d1d1d);
+	public static Color SCRIPT_AREA_COLOR_INACTIVE = new Color(0x636363);
+	public static Color SCRIPT_AREA_FONT_COLOR_INACTIVE = new Color(0xB0B0B0);
 }
