@@ -18,7 +18,6 @@ public class ChainConfigurationFrame extends LFrame {
 
 		GridBagConstraints nameConstraints = new GridBagConstraints();
 		nameConstraints.fill = GridBagConstraints.HORIZONTAL;
-		nameConstraints.gridwidth = 2;
 		nameConstraints.insets =
 			new Insets(
 				Dimensions.DEFAULT_COMPONENT_OFFSET,
@@ -56,6 +55,7 @@ public class ChainConfigurationFrame extends LFrame {
 
 		GridBagConstraints buttonConstrains = new GridBagConstraints();
 		buttonConstrains.anchor = GridBagConstraints.WEST;
+		buttonConstrains.gridwidth = GridBagConstraints.REMAINDER;
 		buttonConstrains.insets = new Insets(
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
@@ -65,15 +65,12 @@ public class ChainConfigurationFrame extends LFrame {
 		JButton addButton = new JButton(Text.ADD_BUTTON);
 		addButton.setFont(Fonts.MEDIUM_DEFAULT);
 		addButton.setBackground(Colors.ADD_BUTTON_COLOR);
-		bagLayout.setConstraints(addButton, buttonConstrains);
-		add(addButton);
-
-		buttonConstrains.gridwidth = GridBagConstraints.REMAINDER;
 		JButton saveButton = new JButton(Text.SAVE_BUTTON);
 		saveButton.setFont(Fonts.MEDIUM_DEFAULT);
 		saveButton.setBackground(Colors.ADD_BUTTON_COLOR);
-		bagLayout.setConstraints(saveButton, buttonConstrains);
-		add(saveButton);
+		JPanel buttonPanel = LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, addButton, saveButton);
+		bagLayout.setConstraints(buttonPanel, buttonConstrains);
+		add(buttonPanel);
 
 		GridBagConstraints scriptCheckBoxConstraints = new GridBagConstraints();
 		scriptCheckBoxConstraints.anchor = GridBagConstraints.WEST;
