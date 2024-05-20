@@ -12,8 +12,8 @@ public class Dimensions {
 	public static int CHAIN_CONFIGURATION_FRAME_WIDTH = 2800;
 	public static int CHAIN_CONFIGURATION_FRAME_HEIGHT = 1900;
 	public static int DEFAULT_COMPONENT_OFFSET = 25;
-	public static int CHAIN_CONFIGURATION_WIDTH = 2500;
-	public static int CHAIN_CONFIGURATION_HEIGHT = 1000;
+	public static int CHAIN_CONFIGURATION_DIALOG_WIDTH = 2500;
+	public static int CHAIN_CONFIGURATION_DIALOG_HEIGHT = 1000;
 	public static int CONFIRMATION_DIALOG_WIDTH = 800;
 	public static int CONFIRMATION_DIALOG_HEIGHT = 600;
 	public static Dimension BACKUP_ITEM_CONTROL_BUTTON = new Dimension(140, 60);
@@ -23,4 +23,5 @@ public class Dimensions {
 	public static int DEFAULT_PANEL_SCROLL = 80;
 	public static Dimension CHAIN_ITEM = new Dimension(0, 150);
 	public static int SMALL_COMPONENT_OFFSET = DEFAULT_COMPONENT_OFFSET / 3;
+	public static int DESTINATION_FIELD_LENGTH_IN_CHARS = 30;
 }

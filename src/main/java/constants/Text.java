@@ -17,4 +17,9 @@ public class Text {
 	public static String BACKUP_NAME_LABEL = "Backup name";
 	public static String SAVE_BUTTON = "Save";
 	public static String FILE_DOES_NOT_EXIST = "file doesn't exist";
+	public static String DIRECTORY = "Directory";
+	public static String CONTENT = "Content";
+	public static String TYPE_LABEL = "Type:";
+	public static String SOURCE_LABEL = "Source:";
+	public static String DESTINATION_LABEL = "Destination";
 }
