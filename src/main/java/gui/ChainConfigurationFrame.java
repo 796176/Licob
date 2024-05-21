@@ -9,9 +9,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ChainConfigurationFrame extends LFrame {
-	public ChainConfigurationFrame() {
+	public ChainConfigurationFrame(String name, ChainItem[] items, String scriptContent, boolean isScriptActive) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
+
+		assert name != null && items != null && scriptContent != null;
 
 		GridBagLayout bagLayout = new GridBagLayout();
 		setLayout(bagLayout);
@@ -32,7 +34,7 @@ public class ChainConfigurationFrame extends LFrame {
 		nameConstraints.insets =
 			new Insets(Dimensions.DEFAULT_COMPONENT_OFFSET, 0, 0, Dimensions.DEFAULT_COMPONENT_OFFSET);
 		nameConstraints.gridwidth = GridBagConstraints.REMAINDER;
-		JTextField nameField = new JTextField();
+		JTextField nameField = new JTextField(name);
 		nameField.setBackground(Colors.LAST_LAYER);
 		nameField.setForeground(Colors.FONT_COLOR);
 		nameField.setCaretColor(Colors.FONT_COLOR);
@@ -49,7 +51,7 @@ public class ChainConfigurationFrame extends LFrame {
 			new Insets(
 				Dimensions.LIST_PANEL_OFFSET, Dimensions.LIST_PANEL_OFFSET, 0, Dimensions.LIST_PANEL_OFFSET
 			);
-		ChainList chainList = new ChainList( new ChainItem[]{});
+		ChainList chainList = new ChainList(items);
 		bagLayout.setConstraints(chainList, chainListConstraints);
 		add(chainList);
 
@@ -81,7 +83,7 @@ public class ChainConfigurationFrame extends LFrame {
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
 			0
 		);
-		JCheckBox scriptCheckBox = new JCheckBox(Text.ENABLE_SCRIPT_CHECKBOX);
+		JCheckBox scriptCheckBox = new JCheckBox(Text.ENABLE_SCRIPT_CHECKBOX, isScriptActive);
 		scriptCheckBox.setFont(Fonts.MEDIUM_DEFAULT);
 		scriptCheckBox.setForeground(Colors.FONT_COLOR);
 		scriptCheckBox.setBackground(Colors.LAYER0);
@@ -98,10 +100,14 @@ public class ChainConfigurationFrame extends LFrame {
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
 			Dimensions.DEFAULT_COMPONENT_OFFSET
 		);
-		ScriptArea scriptArea = new ScriptArea();
+		ScriptArea scriptArea = new ScriptArea(scriptContent, isScriptActive);
 		bagLayout.setConstraints(scriptArea, scriptAreaConstraints);
 		add(scriptArea);
 
 		setVisible(true);
+	}
+
+	public ChainConfigurationFrame(){
+		this("", new ChainItem[]{}, "", false);
 	}
 }
