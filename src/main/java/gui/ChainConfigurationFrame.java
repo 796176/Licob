@@ -4,11 +4,21 @@ import constants.Colors;
 import constants.Dimensions;
 import constants.Fonts;
 import constants.Text;
+import licob.ChainSet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ChainConfigurationFrame extends LFrame {
+	private JCheckBox scriptCheckBox;
+	private ScriptArea scriptArea;
+	private ChainList chainList;
+	private JTextField nameField;
+	private boolean statusChanged = false;
+
 	public ChainConfigurationFrame(String name, ChainItem[] items, String scriptContent, boolean isScriptActive) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -34,7 +44,7 @@ public class ChainConfigurationFrame extends LFrame {
 		nameConstraints.insets =
 			new Insets(Dimensions.DEFAULT_COMPONENT_OFFSET, 0, 0, Dimensions.DEFAULT_COMPONENT_OFFSET);
 		nameConstraints.gridwidth = GridBagConstraints.REMAINDER;
-		JTextField nameField = new JTextField(name);
+		nameField = new JTextField(name);
 		nameField.setBackground(Colors.LAST_LAYER);
 		nameField.setForeground(Colors.FONT_COLOR);
 		nameField.setCaretColor(Colors.FONT_COLOR);
@@ -51,7 +61,7 @@ public class ChainConfigurationFrame extends LFrame {
 			new Insets(
 				Dimensions.LIST_PANEL_OFFSET, Dimensions.LIST_PANEL_OFFSET, 0, Dimensions.LIST_PANEL_OFFSET
 			);
-		ChainList chainList = new ChainList(items);
+		chainList = new ChainList(items);
 		bagLayout.setConstraints(chainList, chainListConstraints);
 		add(chainList);
 
@@ -70,6 +80,7 @@ public class ChainConfigurationFrame extends LFrame {
 		JButton saveButton = new JButton(Text.SAVE_BUTTON);
 		saveButton.setFont(Fonts.MEDIUM_DEFAULT);
 		saveButton.setBackground(Colors.ADD_BUTTON_COLOR);
+		saveButton.addActionListener(new SaveButtonListener());
 		JPanel buttonPanel = LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, addButton, saveButton);
 		bagLayout.setConstraints(buttonPanel, buttonConstrains);
 		add(buttonPanel);
@@ -83,7 +94,7 @@ public class ChainConfigurationFrame extends LFrame {
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
 			0
 		);
-		JCheckBox scriptCheckBox = new JCheckBox(Text.ENABLE_SCRIPT_CHECKBOX, isScriptActive);
+		scriptCheckBox = new JCheckBox(Text.ENABLE_SCRIPT_CHECKBOX, isScriptActive);
 		scriptCheckBox.setFont(Fonts.MEDIUM_DEFAULT);
 		scriptCheckBox.setForeground(Colors.FONT_COLOR);
 		scriptCheckBox.setBackground(Colors.LAYER0);
@@ -100,7 +111,7 @@ public class ChainConfigurationFrame extends LFrame {
 			Dimensions.DEFAULT_COMPONENT_OFFSET,
 			Dimensions.DEFAULT_COMPONENT_OFFSET
 		);
-		ScriptArea scriptArea = new ScriptArea(scriptContent, isScriptActive);
+		scriptArea = new ScriptArea(scriptContent, isScriptActive);
 		bagLayout.setConstraints(scriptArea, scriptAreaConstraints);
 		add(scriptArea);
 
@@ -109,5 +120,26 @@ public class ChainConfigurationFrame extends LFrame {
 
 	public ChainConfigurationFrame(){
 		this("", new ChainItem[]{}, "", false);
+	}
+
+	private class SaveButtonListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			if (chainList.isEmpty()) {
+				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "No data to save");
+				return;
+			}
+			String name = nameField.getText();
+			ChainItem[] chainItems = chainList.getChainItems();
+			boolean scriptStatus = scriptCheckBox.isSelected();
+			String scriptContent = scriptArea.getContent();
+			try {
+				ChainSet.addChainSet(name, chainItems, scriptContent, scriptStatus);
+				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "Successfully saved");
+				statusChanged = false;
+			} catch (IOException e) {
+				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, e.toString());
+			}
+		}
 	}
 }

@@ -48,4 +48,8 @@ public class ChainList extends JScrollPane {
 		chainItems[chainItems.length - 1] = item;
 		initiateList();
 	}
+
+	public boolean isEmpty() {
+		return chainItems.length == 0;
+	}
 }
