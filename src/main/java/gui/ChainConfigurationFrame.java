@@ -98,6 +98,15 @@ public class ChainConfigurationFrame extends LFrame {
 		scriptCheckBox.setFont(Fonts.MEDIUM_DEFAULT);
 		scriptCheckBox.setForeground(Colors.FONT_COLOR);
 		scriptCheckBox.setBackground(Colors.LAYER0);
+		scriptCheckBox.addActionListener( actionEvent -> {
+			JCheckBox checkBox = (JCheckBox) actionEvent.getSource();
+			if (checkBox.isSelected()){
+				scriptArea.setActive();
+			} else {
+				scriptArea.setPassive();
+			}
+			statusChanged = true;
+		});
 		bagLayout.setConstraints(scriptCheckBox, scriptCheckBoxConstraints);
 		add(scriptCheckBox);
 
