@@ -12,6 +12,7 @@ public class ScriptArea extends JScrollPane {
 	public ScriptArea(String content, boolean isActive){
 		super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		textArea = new JTextArea();
+		textArea.setText(content);
 		textArea.setCaretColor(Colors.FONT_COLOR);
 		textArea.setFont(Fonts.MEDIUM_MONO);
 		if (isActive) setActive();
