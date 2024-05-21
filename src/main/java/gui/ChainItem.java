@@ -5,11 +5,16 @@ import java.awt.*;
 import constants.*;
 
 public class ChainItem extends JPanel {
-	LLabel type;
-	LLabel from;
-	LLabel to;
-	JButton remove;
-	public ChainItem(String type, String source, String destination) {
+	private LLabel type;
+	private LLabel from;
+	private LLabel to;
+	private JButton remove;
+	private String exceptions;
+	public ChainItem(String type, String source, String destination, String exceptions) {
+		assert type != null && source != null && destination != null && exceptions != null;
+
+		this.exceptions = exceptions;
+
 		setMinimumSize(Dimensions.CHAIN_ITEM);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.CHAIN_ITEM.height));
 		setPreferredSize(Dimensions.CHAIN_ITEM);
@@ -57,5 +62,21 @@ public class ChainItem extends JPanel {
 		remove.setFont(Fonts.MEDIUM_MONO);
 		bagLayout.setConstraints(remove, removeButtonConstraints);
 		add(remove);
+	}
+
+	public String getType(){
+		return type.getText();
+	}
+
+	public String getSource(){
+		return from.getText();
+	}
+
+	public String getDestination() {
+		return to.getText();
+	}
+
+	public String getExceptions() {
+		return exceptions;
 	}
 }
