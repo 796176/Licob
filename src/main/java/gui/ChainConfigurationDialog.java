@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ChainConfigurationDialog extends LDialog {
 	public JComboBox<String> typeComboBox;
-	public JButton sourceButton;
+	public LFileButton sourceButton;
 	public JTextArea exceptions;
 	public ChainConfigurationDialog(JFrame frame) {
 		super(frame, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
@@ -63,10 +63,7 @@ public class ChainConfigurationDialog extends LDialog {
 			add(Box.createRigidArea(new Dimension(0, Dimensions.DEFAULT_COMPONENT_OFFSET)));
 
 			LLabel sourceLabel = new LLabel(Text.SOURCE_LABEL);
-			sourceButton = new JButton(Text.CHOOSE);
-			sourceButton.setFont(Fonts.MEDIUM_DEFAULT);
-			sourceButton.setForeground(Colors.FONT_COLOR);
-			sourceButton.setBackground(Color.black);
+			sourceButton = new LFileButton();
 			JPanel sourcePanel =
 				LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, sourceLabel, sourceButton);
 			sourcePanel.setPreferredSize(sourcePanel.getMinimumSize());
