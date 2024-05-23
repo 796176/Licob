@@ -24,4 +24,6 @@ public class Dimensions {
 	public static Dimension CHAIN_ITEM = new Dimension(0, 150);
 	public static int SMALL_COMPONENT_OFFSET = DEFAULT_COMPONENT_OFFSET / 3;
 	public static int DESTINATION_FIELD_LENGTH_IN_CHARS = 30;
+	public static Dimension L_FILE_BUTTON = new Dimension(500, 45);
+	public static String L_FILE_BUTTON_DEFAULT_TEXT = "Not set";
 }
