@@ -40,7 +40,7 @@ public class LFileButton extends JButton {
 
 	protected void setDestination(File file) {
 		FontMetrics metrics = getFontMetrics(getFont());
-		String sep = File.pathSeparator;
+		String sep = File.separator;
 		String displayedParentDir = file.getParent().equals(sep) ? sep : file.getParent() + sep;
 		String displayedFileName = file.getName();
 		while (
