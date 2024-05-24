@@ -54,7 +54,10 @@ public class ChainConfigurationDialog extends LDialog {
 			typeComboBox.addItemListener(itemEvent -> {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
 					String selectedItem = (String) typeComboBox.getSelectedItem();
-					if (selectedItem.equals(Text.DIRECTORY) || selectedItem.equals(Text.CONTENT)) {
+					if (
+						selectedItem.equals(ChainTypes.Content.getVisualRepresentation()) ||
+						selectedItem.equals(ChainTypes.Directory.getVisualRepresentation())
+					) {
 						JFileChooser fileChooser = new JFileChooser();
 						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						sourceButton.setFileChooser(fileChooser);
@@ -65,8 +68,8 @@ public class ChainConfigurationDialog extends LDialog {
 			typeComboBox.setBackground(Color.black);
 			typeComboBox.setForeground(Colors.FONT_COLOR);
 			typeComboBox.setLightWeightPopupEnabled(false);
-			typeComboBox.addItem(Text.DIRECTORY);
-			typeComboBox.addItem(Text.CONTENT);
+			typeComboBox.addItem(ChainTypes.Directory.getVisualRepresentation());
+			typeComboBox.addItem(ChainTypes.Content.getVisualRepresentation());
 			JPanel typePanel =
 				LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, typeLabel, typeComboBox);
 			typePanel.setPreferredSize(typePanel.getMinimumSize());
