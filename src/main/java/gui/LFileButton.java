@@ -12,11 +12,11 @@ import java.io.File;
 public class LFileButton extends JButton {
 	private JFileChooser fileChooser;
 	private File chosenFile;
-	public LFileButton(JFileChooser fileChooser){
+	public LFileButton(JFileChooser fc){
 		super(Dimensions.L_FILE_BUTTON_DEFAULT_TEXT);
 
-		assert fileChooser != null;
-		this.fileChooser = fileChooser;
+		assert fc != null;
+		fileChooser = fc;
 
 		setMinimumSize(Dimensions.L_FILE_BUTTON);
 		setPreferredSize(Dimensions.L_FILE_BUTTON);
