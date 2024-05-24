@@ -24,6 +24,7 @@ public class LFileButton extends JButton {
 		setBackground(Color.black);
 		setFont(Fonts.SMALL_MONO);
 		setForeground(Colors.FONT_COLOR);
+		setMargin(new Insets(-1,-1,-1,-1));
 
 		addActionListener(actionEvent -> {
 			int returnValue = fileChooser.showDialog(this, Text.L_FILE_BUTTON_APPROVAL_BUTTON);
