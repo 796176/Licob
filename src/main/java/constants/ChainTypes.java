@@ -1,7 +1,7 @@
 package constants;
 
 public enum ChainTypes {
-	Directory(Text.DIRECTORY), Content(Text.CONTENT);
+	Directory(Text.DIRECTORY), Content(Text.CONTENT), File(Text.FILE);
 	ChainTypes(String s) {
 		visualRepresentation = s;
 	}

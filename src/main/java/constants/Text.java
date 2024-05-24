@@ -23,4 +23,5 @@ public class Text {
 	public static String SOURCE_LABEL = "Source:";
 	public static String DESTINATION_LABEL = "Destination";
 	public static String L_FILE_BUTTON_APPROVAL_BUTTON = "Choose";
+	public static String FILE = "File";
 }

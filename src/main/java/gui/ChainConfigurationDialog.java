@@ -61,6 +61,10 @@ public class ChainConfigurationDialog extends LDialog {
 						JFileChooser fileChooser = new JFileChooser();
 						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						sourceButton.setFileChooser(fileChooser);
+					} else if (selectedItem.equals(ChainTypes.File.getVisualRepresentation())){
+						JFileChooser fileChooser = new JFileChooser();
+						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+						sourceButton.setFileChooser(fileChooser);
 					}
 				}
 			});
@@ -70,6 +74,7 @@ public class ChainConfigurationDialog extends LDialog {
 			typeComboBox.setLightWeightPopupEnabled(false);
 			typeComboBox.addItem(ChainTypes.Directory.getVisualRepresentation());
 			typeComboBox.addItem(ChainTypes.Content.getVisualRepresentation());
+			typeComboBox.addItem(ChainTypes.File.getVisualRepresentation());
 			JPanel typePanel =
 				LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, typeLabel, typeComboBox);
 			typePanel.setPreferredSize(typePanel.getMinimumSize());
