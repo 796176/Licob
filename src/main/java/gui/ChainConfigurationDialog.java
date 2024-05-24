@@ -4,10 +4,11 @@ import constants.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class ChainConfigurationDialog extends LDialog {
 	public JComboBox<String> typeComboBox;
-	public LFileButton sourceButton;
+	public LFileButton sourceButton = new LFileButton();
 	public LFileButton dstButton;
 	public JTextArea exceptions;
 	public ChainConfigurationDialog(JFrame frame) {
@@ -50,6 +51,16 @@ public class ChainConfigurationDialog extends LDialog {
 
 			LLabel typeLabel = new LLabel(Text.TYPE_LABEL);
 			typeComboBox = new JComboBox<>();
+			typeComboBox.addItemListener(itemEvent -> {
+				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+					String selectedItem = (String) typeComboBox.getSelectedItem();
+					if (selectedItem.equals(Text.DIRECTORY) || selectedItem.equals(Text.CONTENT)) {
+						JFileChooser fileChooser = new JFileChooser();
+						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+						sourceButton.setFileChooser(fileChooser);
+					}
+				}
+			});
 			typeComboBox.setFont(Fonts.MEDIUM_DEFAULT);
 			typeComboBox.setBackground(Color.black);
 			typeComboBox.setForeground(Colors.FONT_COLOR);
@@ -65,7 +76,6 @@ public class ChainConfigurationDialog extends LDialog {
 			add(Box.createRigidArea(new Dimension(0, Dimensions.DEFAULT_COMPONENT_OFFSET)));
 
 			LLabel sourceLabel = new LLabel(Text.SOURCE_LABEL);
-			sourceButton = new LFileButton();
 			JPanel sourcePanel =
 				LGridBagLayout.componentString(Dimensions.DEFAULT_COMPONENT_OFFSET, sourceLabel, sourceButton);
 			sourcePanel.setPreferredSize(sourcePanel.getMinimumSize());
