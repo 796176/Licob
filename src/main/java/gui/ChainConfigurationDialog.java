@@ -53,6 +53,7 @@ public class ChainConfigurationDialog extends LDialog {
 			typeComboBox.setFont(Fonts.MEDIUM_DEFAULT);
 			typeComboBox.setBackground(Color.black);
 			typeComboBox.setForeground(Colors.FONT_COLOR);
+			typeComboBox.setLightWeightPopupEnabled(false);
 			typeComboBox.addItem(Text.DIRECTORY);
 			typeComboBox.addItem(Text.CONTENT);
 			JPanel typePanel =
