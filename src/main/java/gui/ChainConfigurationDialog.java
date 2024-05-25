@@ -10,7 +10,7 @@ public class ChainConfigurationDialog extends LDialog {
 	public JComboBox<String> typeComboBox;
 	public LFileButton sourceButton = new LFileButton();
 	public LFileButton dstButton;
-	public JTextArea exceptions;
+	public ExceptionArea exceptionArea;
 	public ChainConfigurationDialog(JFrame frame) {
 		super(frame, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
 
@@ -123,13 +123,9 @@ public class ChainConfigurationDialog extends LDialog {
 			constraints.insets = new Insets(0, 0, 0, 0);
 			constraints.weightx = 1;
 			constraints.weighty = 1;
-			exceptions = new JTextArea();
-			exceptions.setFont(Fonts.MEDIUM_MONO);
-			exceptions.setForeground(Colors.FONT_COLOR);
-			exceptions.setCaretColor(Colors.FONT_COLOR);
-			exceptions.setBackground(Colors.LAST_LAYER);
-			bagLayout.setConstraints(exceptions, constraints);
-			add(exceptions);
+			exceptionArea = new ExceptionArea();
+			bagLayout.setConstraints(exceptionArea, constraints);
+			add(exceptionArea);
 		}
 	}
 }
