@@ -10,7 +10,7 @@ public class ChainConfigurationDialog extends LDialog {
 	public JComboBox<String> typeComboBox;
 	public LFileButton sourceButton = new LFileButton();
 	public LFileButton dstButton;
-	public ExceptionArea exceptionArea;
+	public ExceptionArea exceptionArea = new ExceptionArea();
 	public ChainConfigurationDialog(JFrame frame) {
 		super(frame, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
 
@@ -61,10 +61,12 @@ public class ChainConfigurationDialog extends LDialog {
 						JFileChooser fileChooser = new JFileChooser();
 						fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						sourceButton.setFileChooser(fileChooser);
+						exceptionArea.setActive();
 					} else if (selectedItem.equals(ChainTypes.File.getVisualRepresentation())){
 						JFileChooser fileChooser = new JFileChooser();
 						fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 						sourceButton.setFileChooser(fileChooser);
+						exceptionArea.setPassive();
 					}
 				}
 			});
