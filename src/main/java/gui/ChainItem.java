@@ -2,6 +2,11 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.util.function.BiConsumer;
+
 import constants.*;
 
 public class ChainItem extends JPanel {
@@ -23,6 +28,7 @@ public class ChainItem extends JPanel {
 		setBackground(Colors.LAYER2);
 		GridBagLayout bagLayout = new GridBagLayout();
 		setLayout(bagLayout);
+		addMouseListener(new ChainItemPanelListener());
 
 		GridBagConstraints labelConstraints = new GridBagConstraints();
 		labelConstraints.anchor = GridBagConstraints.WEST;
@@ -80,5 +86,30 @@ public class ChainItem extends JPanel {
 
 	public String getExceptions() {
 		return exceptions;
+	}
+
+	private class ChainItemPanelListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent mouseEvent) {
+			if (mouseEvent.getButton() == MouseEvent.BUTTON1) {
+				ChainTypes chainType = null;
+				try {
+					chainType = ChainTypes.valueOf(getType());
+				} catch (IllegalArgumentException ignored) {}
+				File source = new File(getSource());
+				if (!source.exists()) source = null;
+				File destination = new File(getDestination());
+				if (!destination.exists()) destination = null;
+
+				BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
+					String src = ccd.getSource() == null ? "Not set" : ccd.getSource();
+					String dst = ccd.getDestination() == null ? "Not set" : ccd.getDestination();
+					ccf.replaceChainRule(ChainItem.this, ccd.getChainType(), src, dst, ccd.getExceptions());
+				};
+				var dialog = new ChainConfigurationDialog(
+					ChainItem.this.chainConfigurationFrame, chainType, source, destination, getExceptions(), biConsumer
+				);
+			}
+		}
 	}
 }
