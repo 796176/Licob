@@ -5,14 +5,16 @@ import java.awt.*;
 import constants.*;
 
 public class ChainItem extends JPanel {
+	private final ChainConfigurationFrame chainConfigurationFrame;
 	private LLabel type;
 	private LLabel from;
 	private LLabel to;
 	private JButton remove;
 	private String exceptions;
-	public ChainItem(String type, String source, String destination, String exceptions) {
-		assert type != null && source != null && destination != null && exceptions != null;
+	public ChainItem(ChainConfigurationFrame ccf, String type, String source, String destination, String exceptions, int id) {
+		assert ccf != null && type != null && source != null && destination != null && exceptions != null;
 
+		chainConfigurationFrame = ccf;
 		this.exceptions = exceptions;
 
 		setMinimumSize(Dimensions.CHAIN_ITEM);
