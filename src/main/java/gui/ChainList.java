@@ -8,15 +8,11 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class ChainList extends JScrollPane {
-	private ChainItem[] chainItems;
-	public ChainList(ChainItem[] items) {
+	private ChainItem[] chainItems = new ChainItem[]{};
+	public ChainList() {
 		super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER);
 
-		assert items != null;
-		chainItems = items;
-
 		initiateList();
-
 		verticalScrollBar.setUnitIncrement(Dimensions.DEFAULT_PANEL_SCROLL);
 		setPreferredSize(getMinimumSize());
 	}

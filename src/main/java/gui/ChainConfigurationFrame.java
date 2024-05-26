@@ -61,7 +61,7 @@ public class ChainConfigurationFrame extends LFrame {
 			new Insets(
 				Dimensions.LIST_PANEL_OFFSET, Dimensions.LIST_PANEL_OFFSET, 0, Dimensions.LIST_PANEL_OFFSET
 			);
-		chainList = new ChainList(items);
+		chainList = new ChainList();
 		bagLayout.setConstraints(chainList, chainListConstraints);
 		add(chainList);
 
