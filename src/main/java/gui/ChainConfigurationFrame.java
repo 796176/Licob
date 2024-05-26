@@ -1,9 +1,6 @@
 package gui;
 
-import constants.Colors;
-import constants.Dimensions;
-import constants.Fonts;
-import constants.Text;
+import constants.*;
 import licob.ChainSet;
 
 import javax.swing.*;
@@ -11,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.function.BiConsumer;
 
 public class ChainConfigurationFrame extends LFrame {
 	private JCheckBox scriptCheckBox;
@@ -78,6 +76,7 @@ public class ChainConfigurationFrame extends LFrame {
 		JButton addButton = new JButton(Text.ADD_BUTTON);
 		addButton.setFont(Fonts.MEDIUM_DEFAULT);
 		addButton.setBackground(Colors.ADD_BUTTON_COLOR);
+		addButton.addActionListener(new AddButtonListener());
 		JButton saveButton = new JButton(Text.SAVE_BUTTON);
 		saveButton.setFont(Fonts.MEDIUM_DEFAULT);
 		saveButton.setBackground(Colors.ADD_BUTTON_COLOR);
@@ -168,6 +167,20 @@ public class ChainConfigurationFrame extends LFrame {
 			} catch (IOException e) {
 				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, e.toString());
 			}
+		}
+	}
+
+	private class AddButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
+				String src = ccd.getSource() == null ? "Not set" : ccd.getSource();
+				String dst = ccd.getDestination() == null ? "Not set" : ccd.getDestination();
+				ccf.addChainRule(ccd.getChainType(), src, dst, ccd.getExceptions());
+			};
+
+			ChainConfigurationDialog dialog =
+				new ChainConfigurationDialog(ChainConfigurationFrame.this, biConsumer);
 		}
 	}
 }
