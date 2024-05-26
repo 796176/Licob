@@ -11,7 +11,7 @@ import java.io.File;
 
 public class LFileButton extends JButton {
 	private JFileChooser fileChooser;
-	private File chosenFile;
+	private String chosenFile;
 	public LFileButton(JFileChooser fc){
 		super(Dimensions.L_FILE_BUTTON_DEFAULT_TEXT);
 
@@ -29,8 +29,8 @@ public class LFileButton extends JButton {
 		addActionListener(actionEvent -> {
 			int returnValue = fileChooser.showDialog(this, Text.L_FILE_BUTTON_APPROVAL_BUTTON);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				chosenFile = fileChooser.getSelectedFile();
-				setDestination(chosenFile);
+				chosenFile = fileChooser.getSelectedFile().getAbsolutePath();
+				setDestination(fileChooser.getSelectedFile());
 			}
 		});
 	}
@@ -69,7 +69,7 @@ public class LFileButton extends JButton {
 		return fileChooser;
 	}
 
-	public File getChosenFile() {
+	public String getChosenFile() {
 		return chosenFile;
 	}
 }
