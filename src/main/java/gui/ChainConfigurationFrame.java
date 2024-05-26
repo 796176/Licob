@@ -20,11 +20,11 @@ public class ChainConfigurationFrame extends LFrame {
 	private boolean statusChanged = false;
 	private int uid = 0;
 
-	public ChainConfigurationFrame(String name, ChainItem[] items, String scriptContent, boolean isScriptActive) {
+	public ChainConfigurationFrame(String name, String scriptContent, boolean isScriptActive) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-		assert name != null && items != null && scriptContent != null;
+		assert name != null && scriptContent != null;
 
 		GridBagLayout bagLayout = new GridBagLayout();
 		setLayout(bagLayout);
@@ -129,7 +129,7 @@ public class ChainConfigurationFrame extends LFrame {
 	}
 
 	public ChainConfigurationFrame(){
-		this("", new ChainItem[]{}, "", false);
+		this("", "", false);
 	}
 
 	public void addChainRule(String ct, String src, String dst, String exs) {
