@@ -18,6 +18,7 @@ public class ChainConfigurationFrame extends LFrame {
 	private ChainList chainList;
 	private JTextField nameField;
 	private boolean statusChanged = false;
+	private int uid = 0;
 
 	public ChainConfigurationFrame(String name, ChainItem[] items, String scriptContent, boolean isScriptActive) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
@@ -129,6 +130,24 @@ public class ChainConfigurationFrame extends LFrame {
 
 	public ChainConfigurationFrame(){
 		this("", new ChainItem[]{}, "", false);
+	}
+
+	public void addChainRule(String ct, String src, String dst, String exs) {
+		assert ct != null && src != null && dst != null && exs != null;
+
+		chainList.addItem(new ChainItem(this, ct, src, dst, exs, uid++));
+	}
+
+	public void removeChainRule(ChainItem ci) {
+		assert ci != null;
+
+		chainList.removeItem(ci);
+	}
+
+	public void replaceChainRule(ChainItem old, String ct, String src, String dst, String exs) {
+		assert old != null && ct != null && src != null && dst != null && exs != null;
+
+		chainList.editItem(old, new ChainItem(this, ct, src, dst, exs, uid++));
 	}
 
 	private class SaveButtonListener implements ActionListener{
