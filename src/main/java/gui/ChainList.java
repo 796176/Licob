@@ -49,6 +49,24 @@ public class ChainList extends JScrollPane {
 		initiateList();
 	}
 
+	public void removeItem(ChainItem item) {
+		int index = 0;
+		while (chainItems[index] != item && ++index < chainItems.length);
+		if (index == chainItems.length) return;
+
+		System.arraycopy(chainItems, index + 1, chainItems, index, chainItems.length - 1 - index);
+		chainItems = Arrays.copyOf(chainItems, chainItems.length - 1);
+		initiateList();
+	}
+
+	public void editItem(ChainItem oldItem, ChainItem newItem) {
+		int index = 0;
+		while (chainItems[index] != oldItem && ++index < chainItems.length);
+		if (index == chainItems.length) return;
+		chainItems[index] = newItem;
+		initiateList();
+	}
+
 	public boolean isEmpty() {
 		return chainItems.length == 0;
 	}
