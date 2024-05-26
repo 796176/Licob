@@ -7,10 +7,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ChainConfigurationDialog extends LDialog {
-	public JComboBox<String> typeComboBox;
-	public LFileButton sourceButton = new LFileButton();
-	public LFileButton dstButton;
-	public ExceptionArea exceptionArea = new ExceptionArea();
+	private JComboBox<String> typeComboBox;
+	private final LFileButton sourceButton = new LFileButton();
+	private LFileButton dstButton;
+	private ExceptionArea exceptionArea = new ExceptionArea();
 	public ChainConfigurationDialog(JFrame frame) {
 		super(frame, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
 
@@ -103,6 +103,24 @@ public class ChainConfigurationDialog extends LDialog {
 			destinationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 			add(destinationPanel);
 		}
+	}
+
+	public String getChainType(){
+		assert typeComboBox.getSelectedItem() != null;
+
+		return (String) typeComboBox.getSelectedItem();
+	}
+
+	public String getSource(){
+		return sourceButton.getChosenFile();
+	}
+
+	public String getDestination(){
+		return dstButton.getChosenFile();
+	}
+
+	public String getExceptions(){
+		return exceptionArea.getExceptions();
 	}
 
 	private class RightElements extends JPanel{
