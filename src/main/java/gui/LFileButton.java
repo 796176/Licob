@@ -8,6 +8,7 @@ import constants.Text;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.Optional;
 
 public class LFileButton extends JButton {
 	private JFileChooser fileChooser;
@@ -69,7 +70,7 @@ public class LFileButton extends JButton {
 		return fileChooser;
 	}
 
-	public String getChosenFile() {
-		return chosenFile;
+	public Optional<String> getChosenFile() {
+		return Optional.ofNullable(chosenFile);
 	}
 }

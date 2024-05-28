@@ -174,9 +174,7 @@ public class ChainConfigurationFrame extends LFrame {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 			BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
-				String src = ccd.getSource() == null ? "Not set" : ccd.getSource();
-				String dst = ccd.getDestination() == null ? "Not set" : ccd.getDestination();
-				ccf.addChainRule(ccd.getChainType(), src, dst, ccd.getExceptions());
+				ccf.addChainRule(ccd.getChainType(), ccd.getSource(), ccd.getDestination(), ccd.getExceptions());
 			};
 
 			ChainConfigurationDialog dialog =

@@ -102,9 +102,13 @@ public class ChainItem extends JPanel {
 				if (!destination.exists()) destination = null;
 
 				BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
-					String src = ccd.getSource() == null ? "Not set" : ccd.getSource();
-					String dst = ccd.getDestination() == null ? "Not set" : ccd.getDestination();
-					ccf.replaceChainRule(ChainItem.this, ccd.getChainType(), src, dst, ccd.getExceptions());
+					ccf.replaceChainRule(
+						ChainItem.this,
+						ccd.getChainType(),
+						ccd.getSource(),
+						ccd.getDestination(),
+						ccd.getExceptions()
+					);
 				};
 				var dialog = new ChainConfigurationDialog(
 					ChainItem.this.chainConfigurationFrame, chainType, source, destination, getExceptions(), biConsumer

@@ -152,11 +152,11 @@ public class ChainConfigurationDialog extends LDialog {
 	}
 
 	public String getSource(){
-		return sourceButton.getChosenFile();
+		return sourceButton.getChosenFile().orElse("Not set");
 	}
 
 	public String getDestination(){
-		return dstButton.getChosenFile();
+		return dstButton.getChosenFile().orElse("Not set");
 	}
 
 	public String getExceptions(){
