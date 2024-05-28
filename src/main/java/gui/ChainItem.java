@@ -2,6 +2,8 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -68,6 +70,7 @@ public class ChainItem extends JPanel {
 		remove = new JButton("-");
 		remove.setBackground(Colors.DELETE_BUTTON_COLOR);
 		remove.setFont(Fonts.MEDIUM_MONO);
+		remove.addActionListener(new RemoveButtonListener());
 		bagLayout.setConstraints(remove, removeButtonConstraints);
 		add(remove);
 	}
@@ -114,6 +117,14 @@ public class ChainItem extends JPanel {
 					ChainItem.this.chainConfigurationFrame, chainType, source, destination, getExceptions(), biConsumer
 				);
 			}
+		}
+	}
+
+	private class RemoveButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			ChainItem chainItem = ChainItem.this;
+			chainItem.chainConfigurationFrame.removeChainRule(chainItem);
 		}
 	}
 }
