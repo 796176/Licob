@@ -5,7 +5,7 @@ public class Text {
 	public static String ADD_BUTTON = "Add";
 	public static String RUN_BUTTON = "Run";
 	public static String DELETE_BUTTON = "Delete";
-	public static String[] SUBTITLE_LABEL = new String[] {" chains", " with extra script"};
+	public static String[] SUBTITLE_LABEL = new String[] {" chains", " with a post-backup script"};
 	public static String ENABLE_SCRIPT_CHECKBOX = "Enable script";
 	public static String CANCEL_BUTTON = "Cancel";
 	public static String FILE_DIRECTORY = "File/Directory";
