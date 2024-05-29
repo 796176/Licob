@@ -1,12 +1,13 @@
 package gui;
 
-import constants.Colors;
-import constants.Dimensions;
-import constants.Fonts;
-import constants.Text;
+import constants.*;
+import licob.ChainSet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainFrame extends LFrame{
 	public MainFrame() {
@@ -26,21 +27,19 @@ public class MainFrame extends LFrame{
 			0,
 			Dimensions.LIST_PANEL_OFFSET
 		);
-		BackupList backupList = new BackupList(
-			new BackupItem[]{
-				new BackupItem("name", 5, false, "20222"),
-				new BackupItem("name1", 5, false, "20222"),
-				new BackupItem("name2", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name3", 5, false, "20222"),
-				new BackupItem("name4", 5, false, "20222")
-			}
-		);
+
+		String[] backupItemNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
+		BackupItem[] backupItems = new BackupItem[backupItemNames.length];
+		for (int backupItemIndex = 0; backupItemIndex < backupItems.length; backupItemIndex++) {
+			File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupItemNames[backupItemIndex]);
+			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, null);
+			int chainNumber = ChainSet.retrieveChainNumber(backupFile);
+			long date = ChainSet.retrieveDate(backupFile);
+			String lastExecution = date == 0 ? "-" : new SimpleDateFormat().format(new Date(date));
+			backupItems[backupItemIndex] =
+				new BackupItem(backupItemNames[backupItemIndex], chainNumber, scriptEnabled, lastExecution);
+		}
+		BackupList backupList = new BackupList(backupItems);
 		bagLayout.setConstraints(backupList, backupListConstraints);
 		add(backupList);
 

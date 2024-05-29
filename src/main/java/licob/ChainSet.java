@@ -3,10 +3,8 @@ package licob;
 import constants.Configuration;
 import gui.ChainItem;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.CharBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -35,5 +33,43 @@ public class ChainSet {
 		    bw.write(isScriptEnabled + System.lineSeparator());
 			bw.write(scriptContent);
 		}
+	}
+
+	public static boolean retrieveScript(File backupFile, CharBuffer scriptContent) {
+		assert backupFile != null && backupFile.isDirectory();
+
+		File scriptFile = new File(backupFile, "_script");
+		if (!(scriptFile.exists() && scriptFile.isFile())) return false;
+
+		boolean scriptActive = false;
+		try (BufferedReader bw = new BufferedReader(new FileReader(scriptFile))) {
+		    scriptActive = Boolean.parseBoolean(bw.readLine());
+			bw.read(scriptContent);
+		} catch (IOException | NullPointerException exception) {
+			return scriptActive;
+		}
+		scriptContent.flip();
+		return scriptActive;
+	}
+
+	public static int retrieveChainNumber(File backupFile) {
+		assert backupFile != null && backupFile.isDirectory();
+
+		return backupFile.list((file, s) -> s.matches("^\\d+$")).length;
+	}
+
+	public static long retrieveDate(File backupFile) {
+		assert backupFile != null && backupFile.isDirectory();
+
+		File dateFile = new File(backupFile, "_date");
+		if (!(dateFile.exists() && dateFile.isFile())) return 0;
+
+		long date;
+		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(dateFile))) {
+		    date = Long.parseLong(new String(bis.readAllBytes()));
+		} catch (IOException | NumberFormatException exception) {
+			return 0;
+		}
+		return date;
 	}
 }
