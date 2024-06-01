@@ -14,8 +14,13 @@ public class BackupItem extends JPanel {
 	LLabel lastExecuted;
 	JButton deleteButton;
 	JButton runButton;
+	private final BackupList backupList;
 
-	public BackupItem(String name, int chainNumber, boolean bashScript, String date) {
+	public BackupItem(BackupList bl, String name, int chainNumber, boolean bashScript, String date) {
+		assert bl != null;
+
+		backupList = bl;
+
 		setMinimumSize(Dimensions.BACKUP_ITEM);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.BACKUP_ITEM.height));
 		setPreferredSize(Dimensions.BACKUP_ITEM);
