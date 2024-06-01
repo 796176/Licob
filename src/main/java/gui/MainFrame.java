@@ -36,6 +36,7 @@ public class MainFrame extends LFrame{
 			int chainNumber = ChainSet.retrieveChainNumber(backupFile);
 			long date = ChainSet.retrieveDate(backupFile);
 			String lastExecution = date == 0 ? "-" : new SimpleDateFormat().format(new Date(date));
+			backupList.addBackupItem(backupItemNames[backupItemIndex], chainNumber, scriptEnabled, lastExecution);
 		}
 		bagLayout.setConstraints(backupList, backupListConstraints);
 		add(backupList);
