@@ -29,17 +29,14 @@ public class MainFrame extends LFrame{
 		);
 
 		String[] backupItemNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
-		BackupItem[] backupItems = new BackupItem[backupItemNames.length];
-		for (int backupItemIndex = 0; backupItemIndex < backupItems.length; backupItemIndex++) {
+		BackupList backupList = new BackupList();
+		for (int backupItemIndex = 0; backupItemIndex < backupItemNames.length; backupItemIndex++) {
 			File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupItemNames[backupItemIndex]);
 			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, null);
 			int chainNumber = ChainSet.retrieveChainNumber(backupFile);
 			long date = ChainSet.retrieveDate(backupFile);
 			String lastExecution = date == 0 ? "-" : new SimpleDateFormat().format(new Date(date));
-			backupItems[backupItemIndex] =
-				new BackupItem(backupItemNames[backupItemIndex], chainNumber, scriptEnabled, lastExecution);
 		}
-		BackupList backupList = new BackupList(backupItems);
 		bagLayout.setConstraints(backupList, backupListConstraints);
 		add(backupList);
 
