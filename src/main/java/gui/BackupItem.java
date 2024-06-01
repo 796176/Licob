@@ -4,9 +4,13 @@ import constants.Colors;
 import constants.Dimensions;
 import constants.Fonts;
 import constants.Text;
+import licob.ChainSet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class BackupItem extends JPanel {
 	LLabel name;
@@ -77,7 +81,20 @@ public class BackupItem extends JPanel {
 		deleteButton.setPreferredSize(Dimensions.BACKUP_ITEM_CONTROL_BUTTON);
 		deleteButton.setFont(Fonts.MEDIUM_DEFAULT);
 		deleteButton.setBackground(Colors.DELETE_BUTTON_COLOR);
+		deleteButton.addActionListener(new DeleteButtonListener());
 		bagLayout.setConstraints(deleteButton, buttonConstraints);
 		add(deleteButton);
+	}
+
+	public class DeleteButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			backupList.removeBackupItem(BackupItem.this);
+			try {
+				ChainSet.deleteChainSet(name.getText());
+			}catch (IOException exception) {
+
+			}
+		}
 	}
 }

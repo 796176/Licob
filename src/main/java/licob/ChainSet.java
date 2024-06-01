@@ -5,8 +5,8 @@ import gui.ChainItem;
 
 import java.io.*;
 import java.nio.CharBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class ChainSet {
 	public static void addChainSet(String backupName, ChainItem[] items, String scriptContent, boolean isScriptEnabled) throws IOException {
@@ -33,6 +33,25 @@ public class ChainSet {
 		    bw.write(isScriptEnabled + System.lineSeparator());
 			bw.write(scriptContent);
 		}
+	}
+
+	public static void deleteChainSet(String backupName) throws IOException {
+		if (backupName == null) return;
+
+		Path backupPath = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		Files.walkFileTree(backupPath, new SimpleFileVisitor<>() {
+			@Override
+			public FileVisitResult visitFile(Path path, BasicFileAttributes basicFileAttributes) throws IOException {
+				Files.delete(path);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult postVisitDirectory(Path path, IOException e) throws IOException {
+				Files.delete(path);
+				return FileVisitResult.CONTINUE;
+			}
+		});
 	}
 
 	public static boolean retrieveScript(File backupFile, CharBuffer scriptContent) {
