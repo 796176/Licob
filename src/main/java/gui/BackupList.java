@@ -44,11 +44,10 @@ public class BackupList extends JScrollPane {
 		initiateList();
 	}
 
-	public void removeBackupItem(String name, int chainNumber, boolean bashScript, String date) {
-		assert name != null && chainNumber > -1 && date != null;
+	public void removeBackupItem(BackupItem backupItem) {
+		assert backupItem != null;
 
 		int index = 0;
-		BackupItem backupItem = new BackupItem(this, name, chainNumber, bashScript, date);
 		while (backupItems[index] != backupItem && ++index < backupItems.length);
 		if (index == backupItems.length) return;
 		System.arraycopy(backupItems, index + 1, backupItems, index, backupItems.length - 1 - index);
