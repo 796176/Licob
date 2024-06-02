@@ -24,4 +24,5 @@ public class Text {
 	public static String DESTINATION_LABEL = "Destination";
 	public static String L_FILE_BUTTON_APPROVAL_BUTTON = "Choose";
 	public static String FILE = "File";
+	public static String DEFAULT_BACKUP_NAME = "backup";
 }

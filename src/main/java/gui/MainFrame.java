@@ -5,11 +5,15 @@ import licob.ChainSet;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainFrame extends LFrame{
+	private final BackupList backupList;
 	public MainFrame() {
 		super(Text.APP_NAME, Dimensions.MAIN_FRAME_WIDTH, Dimensions.MAIN_FRAME_HEIGHT);
 
@@ -29,7 +33,7 @@ public class MainFrame extends LFrame{
 		);
 
 		String[] backupItemNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
-		BackupList backupList = new BackupList();
+		backupList = new BackupList();
 		for (int backupItemIndex = 0; backupItemIndex < backupItemNames.length; backupItemIndex++) {
 			File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupItemNames[backupItemIndex]);
 			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, null);
@@ -55,6 +59,7 @@ public class MainFrame extends LFrame{
 		addButton.setBackground(Colors.ADD_BUTTON_COLOR);
 		addButton.setMinimumSize(Dimensions.MAIN_FRAME_CONTROL_BUTTON);
 		addButton.setPreferredSize(Dimensions.MAIN_FRAME_CONTROL_BUTTON);
+		addButton.addActionListener(new AddButtonListener());
 		bagLayout.setConstraints(addButton, buttonConstraints);
 		add(addButton);
 
@@ -67,5 +72,16 @@ public class MainFrame extends LFrame{
 		add(logArea);
 
 		setVisible(true);
+	}
+
+	private class AddButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			String newBackupName = Text.DEFAULT_BACKUP_NAME + System.currentTimeMillis();
+			backupList.addBackupItem(newBackupName, 0, false, "-");
+			try {
+				ChainSet.addChainSet(newBackupName, new ChainItem[]{}, "", false);
+			} catch (IOException exception) {}
+		}
 	}
 }
