@@ -8,8 +8,7 @@ import licob.ChainSet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class BackupItem extends JPanel {
@@ -29,6 +28,7 @@ public class BackupItem extends JPanel {
 		scriptContent = script;
 		isScriptActive = bashScript;
 
+		addMouseListener(new PanelListener());
 		setMinimumSize(Dimensions.BACKUP_ITEM);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.BACKUP_ITEM.height));
 		setPreferredSize(Dimensions.BACKUP_ITEM);
@@ -99,6 +99,23 @@ public class BackupItem extends JPanel {
 			}catch (IOException exception) {
 
 			}
+		}
+	}
+
+	public class PanelListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent mouseEvent) {
+			BackupListNotificator notificator = new BackupListNotificator(BackupItem.this);
+			ChainConfigurationFrame chainConfigurationFrame =
+				new ChainConfigurationFrame(backupList, notificator, name.getText(), scriptContent, isScriptActive);
+			try {
+				ChainRule[] chainSet = ChainSet.getChainSet(name.getText());
+				for (ChainRule chainRule: chainSet) {
+					chainConfigurationFrame.addChainRule(
+						chainRule.type, chainRule.source, chainRule.destination, chainRule.exceptions
+					);
+				}
+			} catch (IOException exception) {}
 		}
 	}
 }

@@ -17,12 +17,23 @@ public class ChainConfigurationFrame extends LFrame {
 	private JTextField nameField;
 	private boolean statusChanged = false;
 	private int uid = 0;
+	private final BackupList backupList;
+	private final BackupListNotificator backupListNotificator;
 
-	public ChainConfigurationFrame(String name, String scriptContent, boolean isScriptActive) {
+	public ChainConfigurationFrame(
+		BackupList list,
+		BackupListNotificator notificator,
+		String name,
+		String scriptContent,
+		boolean isScriptActive
+	) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-		assert name != null && scriptContent != null;
+		assert list != null && notificator != null && name != null && scriptContent != null;
+
+		backupList = list;
+		backupListNotificator = notificator;
 
 		GridBagLayout bagLayout = new GridBagLayout();
 		setLayout(bagLayout);
@@ -176,6 +187,7 @@ public class ChainConfigurationFrame extends LFrame {
 				ChainSet.addChainSet(name, chainItems, scriptContent, scriptStatus);
 				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "Successfully saved");
 				statusChanged = false;
+				backupListNotificator.notify(backupList, ChainConfigurationFrame.this);
 			} catch (IOException e) {
 				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, e.toString());
 			}
