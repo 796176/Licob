@@ -145,6 +145,22 @@ public class ChainConfigurationFrame extends LFrame {
 		chainList.editItem(old, new ChainItem(this, ct, src, dst, exs, uid++));
 	}
 
+	public String getBackupName() {
+		return nameField.getText();
+	}
+
+	public int getChainNumber() {
+		return chainList.getChainItems().length;
+	}
+
+	public boolean getScriptState() {
+		return scriptCheckBox.isSelected();
+	}
+
+	public String getScriptContent() {
+		return scriptArea.getContent();
+	}
+
 	private class SaveButtonListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
