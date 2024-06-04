@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.CharBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,11 +37,14 @@ public class MainFrame extends LFrame{
 		backupList = new BackupList();
 		for (int backupItemIndex = 0; backupItemIndex < backupItemNames.length; backupItemIndex++) {
 			File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupItemNames[backupItemIndex]);
-			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, null);
+			CharBuffer scriptContent = CharBuffer.allocate(1024 * 8);
+			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, scriptContent);
 			int chainNumber = ChainSet.retrieveChainNumber(backupFile);
 			long date = ChainSet.retrieveDate(backupFile);
 			String lastExecution = date == 0 ? "-" : new SimpleDateFormat().format(new Date(date));
-			backupList.addBackupItem(backupItemNames[backupItemIndex], chainNumber, scriptEnabled, lastExecution);
+			backupList.addBackupItem(
+				backupItemNames[backupItemIndex], chainNumber, scriptEnabled, scriptContent.toString(), lastExecution
+			);
 		}
 		bagLayout.setConstraints(backupList, backupListConstraints);
 		add(backupList);
@@ -78,7 +82,7 @@ public class MainFrame extends LFrame{
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 			String newBackupName = Text.DEFAULT_BACKUP_NAME + System.currentTimeMillis();
-			backupList.addBackupItem(newBackupName, 0, false, "-");
+			backupList.addBackupItem(newBackupName, 0, false, "", "-");
 			try {
 				ChainSet.addChainSet(newBackupName, new ChainItem[]{}, "", false);
 			} catch (IOException exception) {}

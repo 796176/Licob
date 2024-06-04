@@ -36,11 +36,11 @@ public class BackupList extends JScrollPane {
 		setViewportView(panel);
 	}
 
-	public void addBackupItem(String name, int chainNumber, boolean bashScript, String date) {
+	public void addBackupItem(String name, int chainNumber, boolean bashScript, String script, String date) {
 		assert name != null && chainNumber > -1 && date != null;
 
 		backupItems = Arrays.copyOf(backupItems, backupItems.length + 1);
-		backupItems[backupItems.length - 1] = new BackupItem(this, name, chainNumber, bashScript, date);
+		backupItems[backupItems.length - 1] = new BackupItem(this, name, chainNumber, bashScript, script, date);
 		initiateList();
 	}
 
@@ -55,13 +55,15 @@ public class BackupList extends JScrollPane {
 		initiateList();
 	}
 
-	public void changeBackupItem(BackupItem oldBI, String name, int chainNumber, boolean bashScript, String date) {
+	public void changeBackupItem(
+		BackupItem oldBI, String name, int chainNumber, boolean bashScript, String script, String date
+	) {
 		assert name != null && chainNumber > -1 && date != null;
 
 		int index = 0;
 		while (backupItems[index] != oldBI && ++index < backupItems.length);
 		if (index == backupItems.length) return;
-		backupItems[index] = new BackupItem(this, name, chainNumber, bashScript, date);
+		backupItems[index] = new BackupItem(this, name, chainNumber, bashScript, script, date);
 		initiateList();
 	}
 

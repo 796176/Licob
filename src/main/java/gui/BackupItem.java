@@ -19,11 +19,15 @@ public class BackupItem extends JPanel {
 	JButton deleteButton;
 	JButton runButton;
 	private final BackupList backupList;
+	private final String scriptContent;
+	private final boolean isScriptActive;
 
-	public BackupItem(BackupList bl, String name, int chainNumber, boolean bashScript, String date) {
-		assert bl != null;
+	public BackupItem(BackupList bl, String name, int chainNumber, boolean bashScript, String script, String date) {
+		assert bl != null && script != null;
 
 		backupList = bl;
+		scriptContent = script;
+		isScriptActive = bashScript;
 
 		setMinimumSize(Dimensions.BACKUP_ITEM);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.BACKUP_ITEM.height));
