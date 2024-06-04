@@ -127,10 +127,6 @@ public class ChainConfigurationFrame extends LFrame {
 		setVisible(true);
 	}
 
-	public ChainConfigurationFrame(){
-		this("", "", false);
-	}
-
 	public void addChainRule(String ct, String src, String dst, String exs) {
 		assert ct != null && src != null && dst != null && exs != null;
 
