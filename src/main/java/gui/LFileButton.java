@@ -30,7 +30,6 @@ public class LFileButton extends JButton {
 		addActionListener(actionEvent -> {
 			int returnValue = fileChooser.showDialog(this, Text.L_FILE_BUTTON_APPROVAL_BUTTON);
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				chosenFile = fileChooser.getSelectedFile().getAbsolutePath();
 				setDestination(fileChooser.getSelectedFile());
 			}
 		});
@@ -41,6 +40,7 @@ public class LFileButton extends JButton {
 	}
 
 	protected void setDestination(File file) {
+		chosenFile = file.getAbsolutePath();
 		FontMetrics metrics = getFontMetrics(getFont());
 		String sep = File.separator;
 		String displayedParentDir = file.getParent().equals(sep) ? sep : file.getParent() + sep;
