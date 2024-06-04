@@ -2,11 +2,13 @@ package licob;
 
 import constants.Configuration;
 import gui.ChainItem;
+import gui.ChainRule;
 
 import java.io.*;
 import java.nio.CharBuffer;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 
 public class ChainSet {
 	public static void addChainSet(String backupName, ChainItem[] items, String scriptContent, boolean isScriptEnabled) throws IOException {
@@ -33,6 +35,35 @@ public class ChainSet {
 		    bw.write(isScriptEnabled + System.lineSeparator());
 			bw.write(scriptContent);
 		}
+	}
+
+	public static ChainRule[] getChainSet(String backupName) throws IOException {
+		assert backupName != null;
+
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return null;
+
+		String[] rules = backupFile.list((file, string) -> string.matches("^-?\\d+$"));
+		Arrays.sort(rules);
+		ChainRule[] chainSet = new ChainRule[rules.length];
+		for (int ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
+			try (
+				BufferedReader reader =
+					new BufferedReader(new FileReader(new File(backupFile, rules[ruleIndex])), 1024 * 8)
+			) {
+				chainSet[ruleIndex] = new ChainRule();
+			    chainSet[ruleIndex].type = reader.readLine();
+				chainSet[ruleIndex].source = reader.readLine();
+				chainSet[ruleIndex].destination = reader.readLine();
+
+				StringBuilder exceptions = new StringBuilder();
+				int c;
+				while ((c = reader.read()) != -1) exceptions.append(c);
+				chainSet[ruleIndex].exceptions = exceptions.toString();
+			}
+		}
+
+		return chainSet;
 	}
 
 	public static void deleteChainSet(String backupName) throws IOException {
