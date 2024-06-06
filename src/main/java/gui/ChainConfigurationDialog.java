@@ -6,38 +6,38 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ChainConfigurationDialog extends LDialog {
 	private JComboBox<String> typeComboBox;
 	private final LFileButton sourceButton = new LFileButton();
 	private LFileButton dstButton;
 	private ExceptionArea exceptionArea = new ExceptionArea();
-	private final BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> ccdBiConsumer;
-	private final ChainConfigurationFrame chainConfigurationFrame;
+	private final Consumer<ChainConfigurationDialog> ccdConsumer;
+	private final JFrame parentFrame;
 	public ChainConfigurationDialog(
-		ChainConfigurationFrame ccf,
+		JFrame frame,
 		ChainTypes ct,
 		File src,
 		File dst,
 		String exs,
-		BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer
+		Consumer<ChainConfigurationDialog> consumer
 	) {
-		super(ccf, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
+		super(frame, "", Dimensions.CHAIN_CONFIGURATION_DIALOG_WIDTH, Dimensions.CHAIN_CONFIGURATION_DIALOG_HEIGHT);
 
-		assert ccf != null && exs != null && biConsumer != null;
+		assert frame != null && exs != null && consumer != null;
 
-		chainConfigurationFrame = ccf;
-		ccdBiConsumer = biConsumer;
+		parentFrame = frame;
+		ccdConsumer = consumer;
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		ccf.setEnabled(false);
+		frame.setEnabled(false);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				ChainConfigurationDialog dialog = ChainConfigurationDialog.this;
-				dialog.ccdBiConsumer.accept(dialog.chainConfigurationFrame, dialog);
+				dialog.ccdConsumer.accept(dialog);
 				dialog.setVisible(false);
-				dialog.chainConfigurationFrame.setEnabled(true);
+				dialog.parentFrame.setEnabled(true);
 			}
 		});
 
@@ -71,11 +71,8 @@ public class ChainConfigurationDialog extends LDialog {
 		setVisible(true);
 	}
 
-	public ChainConfigurationDialog(
-		ChainConfigurationFrame frame,
-		BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer
-	) {
-		this(frame, null, null, null, "", biConsumer);
+	public ChainConfigurationDialog(JFrame frame, Consumer<ChainConfigurationDialog> consumer) {
+		this(frame, null, null, null, "", consumer);
 	}
 
 	private class LeftElements extends JPanel{

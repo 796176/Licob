@@ -9,16 +9,24 @@ import java.util.Arrays;
 
 public class ChainList extends JScrollPane {
 	private ChainItem[] chainItems = new ChainItem[]{};
-	public ChainList() {
+	private JFrame parent;
+	public ChainList(JFrame parent) {
 		super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER);
+		assert parent != null;
+
+		this.parent = parent;
 
 		initiateList();
 		verticalScrollBar.setUnitIncrement(Dimensions.DEFAULT_PANEL_SCROLL);
 		setPreferredSize(getMinimumSize());
 	}
 
-	public ChainItem[] getChainItems() {
-		return chainItems;
+	public ChainRule[] getItems() {
+		ChainRule[] items = new ChainRule[chainItems.length];
+		for (int i = 0; i < items.length; i++) {
+			items[i] = new ChainRule(chainItems[i]);
+		}
+		return items;
 	}
 
 	private JPanel getPanel(){
@@ -39,9 +47,11 @@ public class ChainList extends JScrollPane {
 		setViewportView(innerPanel);
 	}
 
-	public void addItem(ChainItem item){
+	public void addItem(ChainRule chainRule){
+		assert chainRule != null;
+
 		chainItems = Arrays.copyOf(chainItems, chainItems.length + 1);
-		chainItems[chainItems.length - 1] = item;
+		chainItems[chainItems.length - 1] = new ChainItem(this, parent, chainRule);
 		initiateList();
 	}
 
@@ -55,11 +65,11 @@ public class ChainList extends JScrollPane {
 		initiateList();
 	}
 
-	public void editItem(ChainItem oldItem, ChainItem newItem) {
+	public void editItem(ChainItem oldItem, ChainRule chainRule) {
 		int index = 0;
 		while (chainItems[index] != oldItem && ++index < chainItems.length);
 		if (index == chainItems.length) return;
-		chainItems[index] = newItem;
+		chainItems[index] = new ChainItem(this, parent, chainRule);
 		initiateList();
 	}
 

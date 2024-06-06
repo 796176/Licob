@@ -108,14 +108,6 @@ public class BackupItem extends JPanel {
 			BackupListNotificator notificator = new BackupListNotificator(BackupItem.this);
 			ChainConfigurationFrame chainConfigurationFrame =
 				new ChainConfigurationFrame(backupList, notificator, name.getText(), scriptContent, isScriptActive);
-			try {
-				ChainRule[] chainSet = ChainSet.getChainSet(name.getText());
-				for (ChainRule chainRule: chainSet) {
-					chainConfigurationFrame.addChainRule(
-						chainRule.type, chainRule.source, chainRule.destination, chainRule.exceptions
-					);
-				}
-			} catch (IOException exception) {}
 		}
 	}
 }

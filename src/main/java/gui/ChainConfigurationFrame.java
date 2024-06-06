@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class ChainConfigurationFrame extends LFrame {
 	private JCheckBox scriptCheckBox;
@@ -16,7 +16,6 @@ public class ChainConfigurationFrame extends LFrame {
 	private ChainList chainList;
 	private JTextField nameField;
 	private boolean statusChanged = false;
-	private int uid = 0;
 	private final BackupList backupList;
 	private final BackupListNotificator backupListNotificator;
 
@@ -71,7 +70,15 @@ public class ChainConfigurationFrame extends LFrame {
 			new Insets(
 				Dimensions.LIST_PANEL_OFFSET, Dimensions.LIST_PANEL_OFFSET, 0, Dimensions.LIST_PANEL_OFFSET
 			);
-		chainList = new ChainList();
+		chainList = new ChainList(this);
+		try {
+			ChainRule[] chainRules = ChainSet.getChainSet(name);
+			for (ChainRule chainRule : chainRules) {
+				chainList.addItem(chainRule);
+			}
+		} catch (IOException | NullPointerException exception) {
+
+		}
 		bagLayout.setConstraints(chainList, chainListConstraints);
 		add(chainList);
 
@@ -138,30 +145,12 @@ public class ChainConfigurationFrame extends LFrame {
 		setVisible(true);
 	}
 
-	public void addChainRule(String ct, String src, String dst, String exs) {
-		assert ct != null && src != null && dst != null && exs != null;
-
-		chainList.addItem(new ChainItem(this, ct, src, dst, exs, uid++));
-	}
-
-	public void removeChainRule(ChainItem ci) {
-		assert ci != null;
-
-		chainList.removeItem(ci);
-	}
-
-	public void replaceChainRule(ChainItem old, String ct, String src, String dst, String exs) {
-		assert old != null && ct != null && src != null && dst != null && exs != null;
-
-		chainList.editItem(old, new ChainItem(this, ct, src, dst, exs, uid++));
-	}
-
 	public String getBackupName() {
 		return nameField.getText();
 	}
 
 	public int getChainNumber() {
-		return chainList.getChainItems().length;
+		return chainList.getItems().length;
 	}
 
 	public boolean getScriptState() {
@@ -180,7 +169,7 @@ public class ChainConfigurationFrame extends LFrame {
 				return;
 			}
 			String name = nameField.getText();
-			ChainItem[] chainItems = chainList.getChainItems();
+			ChainRule[] chainItems = chainList.getItems();
 			boolean scriptStatus = scriptCheckBox.isSelected();
 			String scriptContent = scriptArea.getContent();
 			try {
@@ -197,12 +186,14 @@ public class ChainConfigurationFrame extends LFrame {
 	private class AddButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
-			BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
-				ccf.addChainRule(ccd.getChainType(), ccd.getSource(), ccd.getDestination(), ccd.getExceptions());
+			Consumer<ChainConfigurationDialog> consumer = (ccd) -> {
+				chainList.addItem(
+					new ChainRule(ccd.getChainType(), ccd.getSource(), ccd.getDestination(), ccd.getExceptions())
+				);
 			};
 
 			ChainConfigurationDialog dialog =
-				new ChainConfigurationDialog(ChainConfigurationFrame.this, biConsumer);
+				new ChainConfigurationDialog(ChainConfigurationFrame.this, consumer);
 		}
 	}
 }

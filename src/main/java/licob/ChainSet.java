@@ -1,7 +1,6 @@
 package licob;
 
 import constants.Configuration;
-import gui.ChainItem;
 import gui.ChainRule;
 
 import java.io.*;
@@ -11,7 +10,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 
 public class ChainSet {
-	public static void addChainSet(String backupName, ChainItem[] items, String scriptContent, boolean isScriptEnabled) throws IOException {
+	public static void addChainSet(String backupName, ChainRule[] items, String scriptContent, boolean isScriptEnabled) throws IOException {
 		assert backupName != null && items != null && scriptContent != null;
 
 		Path chainSetDirectory = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName);
@@ -20,13 +19,13 @@ public class ChainSet {
 		for (int itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			Path rulePath = Path.of(chainSetDirectory.toString(), Integer.toString(itemIndex));
 			try (BufferedWriter bw = new BufferedWriter(new FileWriter(rulePath.toString()), 8 * 1024)) {
-			    String type = items[itemIndex].getType();
+			    String type = items[itemIndex].type;
 				bw.write(type + System.lineSeparator());
-				String source = items[itemIndex].getSource();
+				String source = items[itemIndex].source == null ? "" : items[itemIndex].source;
 				bw.write(source + System.lineSeparator());
-				String dst = items[itemIndex].getDestination();
+				String dst = items[itemIndex].destination == null ? "" : items[itemIndex].destination;
 				bw.write(dst + System.lineSeparator());
-				String exceptions = items[itemIndex].getExceptions();
+				String exceptions = items[itemIndex].exceptions;
 				bw.write(exceptions + System.lineSeparator());
 			}
 		}
@@ -54,7 +53,9 @@ public class ChainSet {
 				chainSet[ruleIndex] = new ChainRule();
 			    chainSet[ruleIndex].type = reader.readLine();
 				chainSet[ruleIndex].source = reader.readLine();
+				if (chainSet[ruleIndex].source.isEmpty()) chainSet[ruleIndex].type = null;
 				chainSet[ruleIndex].destination = reader.readLine();
+				if (chainSet[ruleIndex].destination.isEmpty()) chainSet[ruleIndex].type = null;
 
 				StringBuilder exceptions = new StringBuilder();
 				int c;

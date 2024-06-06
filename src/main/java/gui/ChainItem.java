@@ -7,22 +7,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import constants.*;
 
 public class ChainItem extends JPanel {
-	private final ChainConfigurationFrame chainConfigurationFrame;
-	private LLabel type;
-	private LLabel from;
-	private LLabel to;
-	private JButton remove;
-	private String exceptions;
-	public ChainItem(ChainConfigurationFrame ccf, String type, String source, String destination, String exceptions, int id) {
-		assert ccf != null && type != null && source != null && destination != null && exceptions != null;
+	private final ChainList chainList;
+	private JFrame parent;
+	private final ChainRule chainRule;
+	public ChainItem(ChainList cl, JFrame parent, ChainRule chainRule) {
+		assert cl != null && parent != null && chainRule != null;
 
-		chainConfigurationFrame = ccf;
-		this.exceptions = exceptions;
+		chainList = cl;
+		this.chainRule = chainRule;
+		this.parent = parent;
 
 		setMinimumSize(Dimensions.CHAIN_ITEM);
 		setMaximumSize(new Dimension(Integer.MAX_VALUE, Dimensions.CHAIN_ITEM.height));
@@ -41,20 +39,26 @@ public class ChainItem extends JPanel {
 			0,
 			0
 		);
-		this.type = new LLabel(type);
-		this.type.setFont(Fonts.SMALL_DEFAULT);
-		bagLayout.setConstraints(this.type, labelConstraints);
-		add(this.type);
+		LLabel typeLabel;
+		try {
+			typeLabel = new LLabel(ChainTypes.valueOf(chainRule.type).getVisualRepresentation());
+		} catch (NullPointerException | IllegalArgumentException exception) {
+			typeLabel = new LLabel(ChainTypes.Content.getVisualRepresentation());
+		}
+		typeLabel.setFont(Fonts.SMALL_DEFAULT);
+		bagLayout.setConstraints(typeLabel, labelConstraints);
+		add(typeLabel);
 
-		from = new LLabel(source);
-		from.setFont(Fonts.SMALL_DEFAULT);
-		bagLayout.setConstraints(from, labelConstraints);
-		add(from);
+		LLabel sourceLabel = chainRule.source == null ? new LLabel("Not set") : new LLabel(chainRule.source);
+		sourceLabel.setFont(Fonts.SMALL_DEFAULT);
+		bagLayout.setConstraints(sourceLabel, labelConstraints);
+		add(sourceLabel);
 
-		to = new LLabel(destination);
-		to.setFont(Fonts.SMALL_DEFAULT);
-		bagLayout.setConstraints(to, labelConstraints);
-		add(to);
+		LLabel destinationLabel =
+			chainRule.destination == null ? new LLabel("Not set") : new LLabel(chainRule.destination);
+		destinationLabel.setFont(Fonts.SMALL_DEFAULT);
+		bagLayout.setConstraints(destinationLabel, labelConstraints);
+		add(destinationLabel);
 
 		GridBagConstraints removeButtonConstraints = new GridBagConstraints();
 		removeButtonConstraints.anchor = GridBagConstraints.SOUTHEAST;
@@ -67,28 +71,28 @@ public class ChainItem extends JPanel {
 			Dimensions.DEFAULT_COMPONENT_OFFSET
 
 		);
-		remove = new JButton("-");
-		remove.setBackground(Colors.DELETE_BUTTON_COLOR);
-		remove.setFont(Fonts.MEDIUM_MONO);
-		remove.addActionListener(new RemoveButtonListener());
-		bagLayout.setConstraints(remove, removeButtonConstraints);
-		add(remove);
+		JButton removeButton = new JButton("-");
+		removeButton.setBackground(Colors.DELETE_BUTTON_COLOR);
+		removeButton.setFont(Fonts.MEDIUM_MONO);
+		removeButton.addActionListener(new RemoveButtonListener());
+		bagLayout.setConstraints(removeButton, removeButtonConstraints);
+		add(removeButton);
 	}
 
 	public String getType(){
-		return type.getText();
+		return chainRule.type;
 	}
 
 	public String getSource(){
-		return from.getText();
+		return chainRule.source;
 	}
 
 	public String getDestination() {
-		return to.getText();
+		return chainRule.destination;
 	}
 
 	public String getExceptions() {
-		return exceptions;
+		return chainRule.exceptions;
 	}
 
 	private class ChainItemPanelListener extends MouseAdapter {
@@ -99,22 +103,28 @@ public class ChainItem extends JPanel {
 				try {
 					chainType = ChainTypes.valueOf(getType());
 				} catch (IllegalArgumentException ignored) {}
-				File source = new File(getSource());
-				if (!source.exists()) source = null;
-				File destination = new File(getDestination());
-				if (!destination.exists()) destination = null;
+				
+				File source = null;
+				if (getSource() != null && new File(getSource()).exists())
+					source = new File(getSource());
 
-				BiConsumer<ChainConfigurationFrame, ChainConfigurationDialog> biConsumer = (ccf, ccd) -> {
-					ccf.replaceChainRule(
+				File destination = null;
+				if (getDestination() != null && new File(getDestination()).exists())
+					destination = new File(getDestination());
+
+				Consumer<ChainConfigurationDialog> consumer = (ccd) -> {
+					chainList.editItem(
 						ChainItem.this,
-						ccd.getChainType(),
-						ccd.getSource(),
-						ccd.getDestination(),
-						ccd.getExceptions()
+						new ChainRule(
+							ccd.getChainType(),
+							ccd.getSource(),
+							ccd.getDestination(),
+							ccd.getExceptions()
+						)
 					);
 				};
 				var dialog = new ChainConfigurationDialog(
-					ChainItem.this.chainConfigurationFrame, chainType, source, destination, getExceptions(), biConsumer
+					parent, chainType, source, destination, getExceptions(), consumer
 				);
 			}
 		}
@@ -124,7 +134,7 @@ public class ChainItem extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 			ChainItem chainItem = ChainItem.this;
-			chainItem.chainConfigurationFrame.removeChainRule(chainItem);
+			chainItem.chainList.removeItem(chainItem);
 		}
 	}
 }
