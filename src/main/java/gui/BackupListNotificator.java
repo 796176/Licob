@@ -21,7 +21,7 @@ public class BackupListNotificator {
 
 		BackupItem[] updatedItems = bl.getBackupItems();
 		int index = 0;
-		while (updatedItems[index].name.getText().equals(backupName) && ++index < updatedItems.length);
+		while (!(updatedItems[index].name.getText().equals(backupName)) && ++index < updatedItems.length);
 		currentItem = updatedItems[index];
 	}
 }
