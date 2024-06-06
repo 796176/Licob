@@ -58,8 +58,8 @@ public class ChainSet {
 				if (chainSet[ruleIndex].destination.isEmpty()) chainSet[ruleIndex].type = null;
 
 				StringBuilder exceptions = new StringBuilder();
-				int c;
-				while ((c = reader.read()) != -1) exceptions.append(c);
+				String line;
+				while ((line = reader.readLine()) != null) exceptions.append(line);
 				chainSet[ruleIndex].exceptions = exceptions.toString();
 			}
 		}
