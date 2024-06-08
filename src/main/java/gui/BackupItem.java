@@ -93,6 +93,15 @@ public class BackupItem extends JPanel {
 	public class DeleteButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
+			int result = JOptionPane.showConfirmDialog(
+				backupList,
+				Text.DELETE_BACKUP_ITEM_QUESTION(name.getText()),
+				Text.DELETE_BACKUP_ITEM_TITLE(name.getText()),
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE
+			);
+			if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) return;
+
 			backupList.removeBackupItem(BackupItem.this);
 			try {
 				ChainSet.deleteChainSet(name.getText());

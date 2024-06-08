@@ -25,4 +25,10 @@ public class Text {
 	public static String L_FILE_BUTTON_APPROVAL_BUTTON = "Choose";
 	public static String FILE = "File";
 	public static String DEFAULT_BACKUP_NAME = "backup";
+	public static String DELETE_BACKUP_ITEM_QUESTION(String name) {
+		return "Are you sure you want to delete the " + name + " item?";
+	}
+	public static String DELETE_BACKUP_ITEM_TITLE(String name) {
+		return "Delete the " + name + " item?";
+	}
 }
