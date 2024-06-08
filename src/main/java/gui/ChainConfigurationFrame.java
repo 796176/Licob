@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.function.Consumer;
 
@@ -15,7 +17,6 @@ public class ChainConfigurationFrame extends LFrame {
 	private ScriptArea scriptArea;
 	private ChainList chainList;
 	private JTextField nameField;
-	private boolean statusChanged = false;
 	private final BackupList backupList;
 	private final BackupListNotificator backupListNotificator;
 
@@ -27,7 +28,24 @@ public class ChainConfigurationFrame extends LFrame {
 		boolean isScriptActive
 	) {
 		super(Text.APP_NAME, Dimensions.CHAIN_CONFIGURATION_FRAME_WIDTH, Dimensions.CHAIN_CONFIGURATION_FRAME_HEIGHT);
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (chainList.isTouched() || scriptArea.isTouched()) {
+					int result = JOptionPane.showConfirmDialog(
+						ChainConfigurationFrame.this,
+						Text.EXIT_WITHOUT_SAVING,
+						Text.CONFIRM,
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE
+					);
+
+					if (result == JOptionPane.NO_OPTION || result == JOptionPane.CLOSED_OPTION) return;
+				}
+				ChainConfigurationFrame.this.setVisible(false);
+			}
+		});
 
 		assert list != null && notificator != null && name != null && scriptContent != null;
 
@@ -79,6 +97,7 @@ public class ChainConfigurationFrame extends LFrame {
 		} catch (IOException | NullPointerException exception) {
 
 		}
+		chainList.untouch();
 		bagLayout.setConstraints(chainList, chainListConstraints);
 		add(chainList);
 
@@ -123,7 +142,6 @@ public class ChainConfigurationFrame extends LFrame {
 			} else {
 				scriptArea.setPassive();
 			}
-			statusChanged = true;
 		});
 		bagLayout.setConstraints(scriptCheckBox, scriptCheckBoxConstraints);
 		add(scriptCheckBox);
@@ -175,7 +193,8 @@ public class ChainConfigurationFrame extends LFrame {
 			try {
 				ChainSet.addChainSet(name, chainItems, scriptContent, scriptStatus);
 				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "Successfully saved");
-				statusChanged = false;
+				chainList.untouch();
+				scriptArea.untouch();
 				backupListNotificator.notify(backupList, ChainConfigurationFrame.this);
 			} catch (IOException e) {
 				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, e.toString());

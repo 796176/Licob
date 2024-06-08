@@ -31,4 +31,6 @@ public class Text {
 	public static String DELETE_BACKUP_ITEM_TITLE(String name) {
 		return "Delete the " + name + " item?";
 	}
+	public static String EXIT_WITHOUT_SAVING = "Are you sure you want to exist without saving?";
+	public static String CONFIRM = "Confirm";
 }

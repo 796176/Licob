@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class ChainList extends JScrollPane {
 	private ChainItem[] chainItems = new ChainItem[]{};
 	private JFrame parent;
+	private boolean touched = false;
 	public ChainList(JFrame parent) {
 		super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER);
 		assert parent != null;
@@ -53,6 +54,7 @@ public class ChainList extends JScrollPane {
 		chainItems = Arrays.copyOf(chainItems, chainItems.length + 1);
 		chainItems[chainItems.length - 1] = new ChainItem(this, parent, chainRule);
 		initiateList();
+		touched = true;
 	}
 
 	public void removeItem(ChainItem item) {
@@ -63,6 +65,7 @@ public class ChainList extends JScrollPane {
 		System.arraycopy(chainItems, index + 1, chainItems, index, chainItems.length - 1 - index);
 		chainItems = Arrays.copyOf(chainItems, chainItems.length - 1);
 		initiateList();
+		touched = true;
 	}
 
 	public void editItem(ChainItem oldItem, ChainRule chainRule) {
@@ -71,9 +74,18 @@ public class ChainList extends JScrollPane {
 		if (index == chainItems.length) return;
 		chainItems[index] = new ChainItem(this, parent, chainRule);
 		initiateList();
+		touched = true;
 	}
 
 	public boolean isEmpty() {
 		return chainItems.length == 0;
+	}
+
+	public boolean isTouched() {
+		return touched;
+	}
+
+	public void untouch() {
+		touched = false;
 	}
 }
