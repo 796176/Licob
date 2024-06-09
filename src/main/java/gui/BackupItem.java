@@ -10,13 +10,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.PipedOutputStream;
 
 public class BackupItem extends JPanel {
-	LLabel name;
-	LLabel subtitle;
-	LLabel lastExecuted;
-	JButton deleteButton;
-	JButton runButton;
+	private LLabel name;
+	private LLabel subtitle;
+	private LLabel lastExecuted;
+	private JButton deleteButton;
+	private JButton runButton;
 	private final BackupList backupList;
 	private final String scriptContent;
 	private final boolean isScriptActive;
@@ -88,6 +89,14 @@ public class BackupItem extends JPanel {
 		deleteButton.addActionListener(new DeleteButtonListener());
 		bagLayout.setConstraints(deleteButton, buttonConstraints);
 		add(deleteButton);
+	}
+
+	public String getBackupName() {
+		return name.getText();
+	}
+
+	public String getLastTimeExecuted() {
+		return lastExecuted.getText().substring((Text.LAST_EXECUTION_LABEL + " ").length());
 	}
 
 	public class DeleteButtonListener implements ActionListener {

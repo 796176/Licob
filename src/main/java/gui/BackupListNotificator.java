@@ -16,12 +16,12 @@ public class BackupListNotificator {
 		int chainNumber = ccf.getChainNumber();
 		boolean isScriptActive = ccf.getScriptState();
 		String scriptContent = ccf.getScriptContent();
-		String date = currentItem.lastExecuted.getText();
+		String date = currentItem.getLastTimeExecuted();
 		bl.changeBackupItem(currentItem, backupName, chainNumber, isScriptActive, scriptContent, date);
 
 		BackupItem[] updatedItems = bl.getBackupItems();
 		int index = 0;
-		while (!(updatedItems[index].name.getText().equals(backupName)) && ++index < updatedItems.length);
+		while (!(updatedItems[index].getBackupName().equals(backupName)) && ++index < updatedItems.length);
 		currentItem = updatedItems[index];
 	}
 }
