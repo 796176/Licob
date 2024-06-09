@@ -87,10 +87,10 @@ public class ChainSet {
 		});
 	}
 
-	public static boolean retrieveScript(File backupFile, CharBuffer scriptContent) {
-		assert backupFile != null && backupFile.isDirectory();
+	public static boolean retrieveScript(String backupName, CharBuffer scriptContent) {
+		assert backupName != null;
 
-		File scriptFile = new File(backupFile, "_script");
+		File scriptFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
 		if (!(scriptFile.exists() && scriptFile.isFile())) return false;
 
 		boolean scriptActive = false;
@@ -104,16 +104,18 @@ public class ChainSet {
 		return scriptActive;
 	}
 
-	public static int retrieveChainNumber(File backupFile) {
-		assert backupFile != null && backupFile.isDirectory();
+	public static int retrieveChainNumber(String backupName) {
+		assert backupName != null;
 
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return 0;
 		return backupFile.list((file, s) -> s.matches("^\\d+$")).length;
 	}
 
-	public static long retrieveDate(File backupFile) {
-		assert backupFile != null && backupFile.isDirectory();
+	public static long retrieveDate(String backupName) {
+		assert backupName != null;
 
-		File dateFile = new File(backupFile, "_date");
+		File dateFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_date").toFile();
 		if (!(dateFile.exists() && dateFile.isFile())) return 0;
 
 		long date;

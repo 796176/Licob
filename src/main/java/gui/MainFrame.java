@@ -33,17 +33,16 @@ public class MainFrame extends LFrame{
 			Dimensions.LIST_PANEL_OFFSET
 		);
 
-		String[] backupItemNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
+		String[] backupNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
 		backupList = new BackupList();
-		for (int backupItemIndex = 0; backupItemIndex < backupItemNames.length; backupItemIndex++) {
-			File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupItemNames[backupItemIndex]);
+		for (String backupName: backupNames) {
 			CharBuffer scriptContent = CharBuffer.allocate(1024 * 8);
-			boolean scriptEnabled = ChainSet.retrieveScript(backupFile, scriptContent);
-			int chainNumber = ChainSet.retrieveChainNumber(backupFile);
-			long date = ChainSet.retrieveDate(backupFile);
+			boolean scriptEnabled = ChainSet.retrieveScript(backupName, scriptContent);
+			int chainNumber = ChainSet.retrieveChainNumber(backupName);
+			long date = ChainSet.retrieveDate(backupName);
 			String lastExecution = date == 0 ? "-" : new SimpleDateFormat().format(new Date(date));
 			backupList.addBackupItem(
-				backupItemNames[backupItemIndex], chainNumber, scriptEnabled, scriptContent.toString(), lastExecution
+				backupName, chainNumber, scriptEnabled, scriptContent.toString(), lastExecution
 			);
 		}
 		bagLayout.setConstraints(backupList, backupListConstraints);
