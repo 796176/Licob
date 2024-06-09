@@ -183,7 +183,12 @@ public class ChainConfigurationFrame extends LFrame {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
 			if (chainList.isEmpty()) {
-				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "No data to save");
+				JOptionPane.showMessageDialog(
+					ChainConfigurationFrame.this,
+					Text.SaveDialog.FAILED_NO_DATA,
+					Text.SaveDialog.TITLE,
+					JOptionPane.INFORMATION_MESSAGE
+				);
 				return;
 			}
 			String name = nameField.getText();
@@ -192,12 +197,16 @@ public class ChainConfigurationFrame extends LFrame {
 			String scriptContent = scriptArea.getContent();
 			try {
 				ChainSet.addChainSet(name, chainItems, scriptContent, scriptStatus);
-				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, "Successfully saved");
+				JOptionPane.showMessageDialog(
+					ChainConfigurationFrame.this,
+					Text.SaveDialog.SAVED,
+					Text.SaveDialog.TITLE,
+					JOptionPane.INFORMATION_MESSAGE
+				);
 				chainList.untouch();
 				scriptArea.untouch();
 				backupListNotificator.notify(backupList, ChainConfigurationFrame.this);
 			} catch (IOException e) {
-				NotificationDialog dialog = new NotificationDialog(ChainConfigurationFrame.this, e.toString());
 			}
 		}
 	}

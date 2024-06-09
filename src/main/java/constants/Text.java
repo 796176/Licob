@@ -33,4 +33,9 @@ public class Text {
 	}
 	public static String EXIT_WITHOUT_SAVING = "Are you sure you want to exist without saving?";
 	public static String CONFIRM = "Confirm";
+	public static class SaveDialog {
+		public static String TITLE = "Save";
+		public static String SAVED = "Successfully saved";
+		public static String FAILED_NO_DATA = "No data to save";
+	}
 }
