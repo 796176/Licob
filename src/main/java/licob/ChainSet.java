@@ -29,11 +29,12 @@ public class ChainSet {
 				bw.write(exceptions + System.lineSeparator());
 			}
 		}
-
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(chainSetDirectory.toString(), "_script")))) {
+		File scriptFile = new File(chainSetDirectory.toString(), "_script");
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
 		    bw.write(isScriptEnabled + System.lineSeparator());
 			bw.write(scriptContent);
 		}
+		scriptFile.setExecutable(true);
 	}
 
 	public static ChainRule[] getChainSet(String backupName) throws IOException {
