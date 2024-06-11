@@ -38,4 +38,10 @@ public class Text {
 		public static String SAVED = "Successfully saved";
 		public static String FAILED_NO_DATA = "No data to save";
 	}
+	public static class ErrorDialog {
+		public static String TITLE = "Error";
+		public static String STATUS(Exception e) {
+			return "An unexpected exception occurred:" + System.lineSeparator() + e.getMessage();
+		}
+	}
 }

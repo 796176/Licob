@@ -95,7 +95,12 @@ public class ChainConfigurationFrame extends LFrame {
 				chainList.addItem(chainRule);
 			}
 		} catch (IOException | NullPointerException exception) {
-
+			JOptionPane.showMessageDialog(
+				this,
+				Text.ErrorDialog.STATUS(exception),
+				Text.ErrorDialog.TITLE,
+				JOptionPane.ERROR_MESSAGE
+			);
 		}
 		chainList.untouch();
 		bagLayout.setConstraints(chainList, chainListConstraints);
@@ -207,6 +212,12 @@ public class ChainConfigurationFrame extends LFrame {
 				scriptArea.untouch();
 				backupListNotificator.notify(backupList, ChainConfigurationFrame.this);
 			} catch (IOException e) {
+				JOptionPane.showMessageDialog(
+					ChainConfigurationFrame.this,
+					Text.ErrorDialog.STATUS(e),
+					Text.ErrorDialog.TITLE,
+					JOptionPane.ERROR_MESSAGE
+				);
 			}
 		}
 	}

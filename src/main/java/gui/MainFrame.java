@@ -84,7 +84,13 @@ public class MainFrame extends LFrame{
 			backupList.addBackupItem(newBackupName, 0, false, "", "-");
 			try {
 				ChainSet.addChainSet(newBackupName, new ChainRule[]{}, "", false);
-			} catch (IOException exception) {}
+			} catch (IOException exception) {
+				JOptionPane.showMessageDialog(
+					MainFrame.this,
+					Text.ErrorDialog.STATUS(exception),
+					Text.ErrorDialog.TITLE,
+					JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 }
