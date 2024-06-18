@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LDialog extends JDialog {
-	public LDialog(JFrame frame, String title, int dialogWidth, int dialogHeight) {
-		super(frame, title);
+	public LDialog(JFrame frame, String title, boolean modal, int dialogWidth, int dialogHeight) {
+		super(frame, title, modal);
 
 		getContentPane().setBackground(Colors.LAYER0);
 		setSize(dialogWidth, dialogHeight);
@@ -18,5 +18,8 @@ public class LDialog extends JDialog {
 		int xLocation = bounds.width / 2 - dialogWidth / 2;
 		int yLocation = bounds.height / 2 - dialogHeight / 2;
 		setLocation(xLocation, yLocation);
+	}
+	public LDialog(JFrame frame, String title, int dialogWidth, int dialogHeight) {
+		this(frame, title, false, dialogWidth, dialogHeight);
 	}
 }
