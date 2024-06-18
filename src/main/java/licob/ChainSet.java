@@ -31,10 +31,14 @@ public class ChainSet {
 		}
 		File scriptFile = new File(chainSetDirectory.toString(), "_script");
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
-		    bw.write(isScriptEnabled + System.lineSeparator());
 			bw.write(scriptContent);
 		}
 		scriptFile.setExecutable(true);
+
+		File scriptStatusFile = new File(chainSetDirectory.toString(), "_scriptstatus");
+		try (FileWriter fw = new FileWriter(scriptStatusFile)) {
+			fw.write(isScriptEnabled + System.lineSeparator());
+		}
 	}
 
 	public static ChainRule[] getChainSet(String backupName) throws IOException {
@@ -90,12 +94,20 @@ public class ChainSet {
 	public static boolean retrieveScript(String backupName, CharBuffer scriptContent) {
 		assert backupName != null;
 
+		File scriptStatusFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_scriptstatus").toFile();
+		if (!(scriptStatusFile.exists() && scriptStatusFile.isFile())) return false;
+
+		boolean scriptActive = false;
+		try (BufferedReader br = new BufferedReader(new FileReader(scriptStatusFile))) {
+			scriptActive = Boolean.parseBoolean(br.readLine());
+		} catch (IOException exception) {
+			return scriptActive;
+		}
+
 		File scriptFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
 		if (!(scriptFile.exists() && scriptFile.isFile())) return false;
 
-		boolean scriptActive = false;
 		try (BufferedReader bw = new BufferedReader(new FileReader(scriptFile))) {
-		    scriptActive = Boolean.parseBoolean(bw.readLine());
 			bw.read(scriptContent);
 		} catch (IOException | NullPointerException exception) {
 			return scriptActive;
