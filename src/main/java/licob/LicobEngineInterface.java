@@ -16,27 +16,15 @@
  */
 
 
-package gui;
+package licob;
 
-import constants.Colors;
-import constants.Fonts;
+import java.io.*;
 
-import javax.swing.*;
-
-public class LogArea extends JScrollPane {
-	JTextArea textArea = new JTextArea();
-	public LogArea(){
-		super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-		textArea.setBackground(Colors.LAST_LAYER);
-		textArea.setForeground(Colors.FONT_COLOR);
-		textArea.setFont(Fonts.SMALL_MONO);
-		textArea.setEditable(false);
-		setViewportView(textArea);
-		setPreferredSize(getMinimumSize());
-	}
-
-	public void log(String s) {
-		textArea.append(s + System.lineSeparator());
-	}
+public interface LicobEngineInterface {
+	void createBackup(File source, File dst, File[] exceptions) throws IOException;
+	void createBackup(File source, File dst) throws IOException;
+	void backupContent(File source, File dst, File[] exceptions) throws IOException;
+	void backupContent(File source, File dst) throws IOException;
+	LicobStatus getStatus();
+	void interrupt();
 }

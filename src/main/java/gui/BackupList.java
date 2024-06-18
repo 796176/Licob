@@ -20,6 +20,7 @@ package gui;
 
 import constants.Colors;
 import constants.Dimensions;
+import licob.BackupProcess;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +28,13 @@ import java.util.Arrays;
 
 public class BackupList extends JScrollPane {
 	private BackupItem[] backupItems = new BackupItem[]{};
-	public BackupList() {
+	private final BackupProcess backupProcess;
+	public BackupList(BackupProcess backupProcess) {
 		super(VERTICAL_SCROLLBAR_ALWAYS, HORIZONTAL_SCROLLBAR_NEVER);
 
+		assert backupProcess != null;
+
+		this.backupProcess = backupProcess;
 		setPreferredSize(getMinimumSize());
 		verticalScrollBar.setUnitIncrement(Dimensions.DEFAULT_PANEL_SCROLL);
 		initiateList();
@@ -58,7 +63,8 @@ public class BackupList extends JScrollPane {
 		assert name != null && chainNumber > -1 && date != null;
 
 		backupItems = Arrays.copyOf(backupItems, backupItems.length + 1);
-		backupItems[backupItems.length - 1] = new BackupItem(this, name, chainNumber, bashScript, script, date);
+		backupItems[backupItems.length - 1] =
+			new BackupItem(this, backupProcess, name, chainNumber, bashScript, script, date);
 		initiateList();
 	}
 
@@ -81,7 +87,7 @@ public class BackupList extends JScrollPane {
 		int index = 0;
 		while (backupItems[index] != oldBI && ++index < backupItems.length);
 		if (index == backupItems.length) return;
-		backupItems[index] = new BackupItem(this, name, chainNumber, bashScript, script, date);
+		backupItems[index] = new BackupItem(this, backupProcess, name, chainNumber, bashScript, script, date);
 		initiateList();
 	}
 

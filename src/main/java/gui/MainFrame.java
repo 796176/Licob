@@ -19,6 +19,7 @@
 package gui;
 
 import constants.*;
+import licob.BackupProcess;
 import licob.ChainSet;
 
 import javax.swing.*;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainFrame extends LFrame{
+	private final LogArea logArea = new LogArea();
 	private final BackupList backupList;
 	public MainFrame() {
 		super(Text.APP_NAME, Dimensions.MAIN_FRAME_WIDTH, Dimensions.MAIN_FRAME_HEIGHT);
@@ -52,7 +54,7 @@ public class MainFrame extends LFrame{
 		);
 
 		String[] backupNames = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
-		backupList = new BackupList();
+		backupList = new BackupList(new BackupProcess(logArea, new BackupDialog(this)));
 		for (String backupName: backupNames) {
 			CharBuffer scriptContent = CharBuffer.allocate(1024 * 8);
 			boolean scriptEnabled = ChainSet.retrieveScript(backupName, scriptContent);
@@ -88,7 +90,6 @@ public class MainFrame extends LFrame{
 		logAreaConstraints.gridwidth = GridBagConstraints.REMAINDER;
 		logAreaConstraints.fill = GridBagConstraints.BOTH;
 		logAreaConstraints.weighty = 1;
-		LogArea logArea = new LogArea();
 		bagLayout.setConstraints(logArea, logAreaConstraints);
 		add(logArea);
 

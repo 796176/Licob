@@ -22,13 +22,17 @@ import constants.Colors;
 import constants.Dimensions;
 import constants.Fonts;
 import constants.Text;
+import licob.BackupProcess;
 import licob.ChainSet;
+import licob.LicobEngine;
+import licob.LicobStatus;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.io.PipedOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BackupItem extends JPanel {
 	private LLabel name;
@@ -39,11 +43,21 @@ public class BackupItem extends JPanel {
 	private final BackupList backupList;
 	private final String scriptContent;
 	private final boolean isScriptActive;
+	private final BackupProcess backupProcess;
 
-	public BackupItem(BackupList bl, String name, int chainNumber, boolean bashScript, String script, String date) {
-		assert bl != null && script != null;
+	public BackupItem(
+		BackupList bl,
+		BackupProcess backupProcess,
+		String name,
+		int chainNumber,
+		boolean bashScript,
+		String script,
+		String date
+	) {
+		assert bl != null && backupProcess != null && script != null;
 
 		backupList = bl;
+		this.backupProcess = backupProcess;
 		scriptContent = script;
 		isScriptActive = bashScript;
 
@@ -94,6 +108,7 @@ public class BackupItem extends JPanel {
 		runButton.setPreferredSize(Dimensions.BACKUP_ITEM_CONTROL_BUTTON);
 		runButton.setFont(Fonts.MEDIUM_DEFAULT);
 		runButton.setBackground(Colors.RUN_BUTTON_COLOR);
+		runButton.addActionListener(new RunButtonListener());
 		bagLayout.setConstraints(runButton, buttonConstraints);
 		add(runButton);
 
@@ -144,6 +159,26 @@ public class BackupItem extends JPanel {
 			BackupListNotificator notificator = new BackupListNotificator(BackupItem.this);
 			ChainConfigurationFrame chainConfigurationFrame =
 				new ChainConfigurationFrame(backupList, notificator, name.getText(), scriptContent, isScriptActive);
+		}
+	}
+
+	public class RunButtonListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent actionEvent) {
+			backupProcess.start(getBackupName());
+			backupProcess.join();
+			long lastExecution = ChainSet.retrieveDate(getBackupName());
+			String formatedLastExecution =
+				lastExecution == 0 ? "-" : new SimpleDateFormat().format(new Date(lastExecution));
+			lastExecuted.setText(Text.LAST_EXECUTION_LABEL + " " + formatedLastExecution);
+
+			if (backupProcess.getException() != null) {
+				JOptionPane.showMessageDialog(
+					backupList,
+					Text.ErrorDialog.STATUS(backupProcess.getException()),
+					Text.ErrorDialog.TITLE, JOptionPane.ERROR_MESSAGE
+				);
+			}
 		}
 	}
 }

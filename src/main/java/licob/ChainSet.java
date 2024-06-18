@@ -156,4 +156,20 @@ public class ChainSet {
 		}
 		return date;
 	}
+
+	public static void updateDate(String backupName) throws IOException {
+		assert backupName != null;
+
+		File dateFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_date").toFile();
+
+		try (FileWriter dateWriter = new FileWriter(dateFile)){
+			dateWriter.write(Long.toString(System.currentTimeMillis()));
+		}
+	}
+
+	public static File getScriptFile(String backupName) {
+		assert backupName != null;
+
+		return Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
+	}
 }

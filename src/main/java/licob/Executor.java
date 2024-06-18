@@ -16,27 +16,20 @@
  */
 
 
-package gui;
+package licob;
 
-import constants.Colors;
-import constants.Fonts;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.*;
+public class Executor {
+	public static Process executeScript(File script) throws IOException {
+		assert script != null;
 
-public class LogArea extends JScrollPane {
-	JTextArea textArea = new JTextArea();
-	public LogArea(){
-		super(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		String os = System.getProperty("os.name");
+		if (os.toLowerCase().contains("linux")) {
+			return Runtime.getRuntime().exec(new String[]{script.getAbsolutePath()});
+		}
 
-		textArea.setBackground(Colors.LAST_LAYER);
-		textArea.setForeground(Colors.FONT_COLOR);
-		textArea.setFont(Fonts.SMALL_MONO);
-		textArea.setEditable(false);
-		setViewportView(textArea);
-		setPreferredSize(getMinimumSize());
-	}
-
-	public void log(String s) {
-		textArea.append(s + System.lineSeparator());
+		return null;
 	}
 }

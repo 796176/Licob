@@ -44,4 +44,6 @@ public class Dimensions {
 	public static int DESTINATION_FIELD_LENGTH_IN_CHARS = 30;
 	public static Dimension L_FILE_BUTTON = new Dimension(500, 45);
 	public static String L_FILE_BUTTON_DEFAULT_TEXT = "Not set";
+	public static int BACKUP_DIALOG_WIDTH = 2000;
+	public static int BACKUP_DIALOG_HEIGHT = 1000;
 }

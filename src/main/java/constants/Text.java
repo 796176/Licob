@@ -62,4 +62,41 @@ public class Text {
 			return "An unexpected exception occurred:" + System.lineSeparator() + e.getMessage();
 		}
 	}
+	public static class BackupDialog {
+		public static String TITLE = "Backup in process";
+		public static String CHAIN_LABEL(int chain) {
+			if (chain % 10 == 1)
+				return "Executing the " + chain + "st chain";
+			else if (chain % 10 == 2)
+				return "Executing the " + chain + "nd chain";
+			else if (chain % 10 == 3)
+				return "Executing the " + chain + "rd chain";
+			else
+				return "Executing the " + chain + "th chain";
+		}
+		public static String COPIED_CURRENT_FILE(String file, long copied, long total){
+			return "Copied " + copied + " bytes out of " + total + " from " + file;
+		}
+		public static String COPIED_FILES(long copied, long total){
+			return "Copied " + copied + " files out of " + total + " in the current chain";
+		}
+		public static String COPIED_BITES(long copied, long total) {
+			return "Copied " + copied + " bytes out of " + total + " in the current chain";
+
+		}
+	}
+	public static class LogMessages {
+		public static String BACKUP_SUCCESS = "Backup has been successfully created";
+		public static String CHAIN_PROCESSING(int chainIndex){
+			return "Executing chain number " + ++chainIndex + "...";
+		}
+		public static String CHAIN_SKIP(String reason){
+			if (reason == null)
+				return "\tStatus: skipped";
+			else
+				return "\tStatus: skipped, " + reason;
+		}
+		public static String CHAIN_SUCCESS = "\tStatus: success";
+		public static String INTERRUPTED = "The process was interrupted";
+	}
 }
