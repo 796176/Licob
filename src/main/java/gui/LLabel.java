@@ -11,4 +11,8 @@ public class LLabel extends JLabel {
 		setFont(Fonts.MEDIUM_DEFAULT);
 		setForeground(Colors.FONT_COLOR);
 	}
+
+	public LLabel() {
+		this("");
+	}
 }
