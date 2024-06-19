@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class LFileButton extends JButton {
 	private JFileChooser fileChooser;
-	private String chosenFile;
+	private String chosenFile = null;
 	public LFileButton(JFileChooser fc){
 		super(Dimensions.L_FILE_BUTTON_DEFAULT_TEXT);
 
@@ -88,7 +88,7 @@ public class LFileButton extends JButton {
 		return fileChooser;
 	}
 
-	public Optional<String> getChosenFile() {
-		return Optional.ofNullable(chosenFile);
+	public String getChosenFile() {
+		return chosenFile;
 	}
 }

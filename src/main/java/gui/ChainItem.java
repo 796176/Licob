@@ -97,6 +97,10 @@ public class ChainItem extends JPanel {
 		add(removeButton);
 	}
 
+	public ChainRule getChainRule() {
+		return chainRule;
+	}
+
 	public String getType(){
 		return chainRule.type;
 	}

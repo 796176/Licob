@@ -43,7 +43,7 @@ public class ChainList extends JScrollPane {
 	public ChainRule[] getItems() {
 		ChainRule[] items = new ChainRule[chainItems.length];
 		for (int i = 0; i < items.length; i++) {
-			items[i] = new ChainRule(chainItems[i]);
+			items[i] = chainItems[i].getChainRule();
 		}
 		return items;
 	}
