@@ -32,7 +32,9 @@ public class Text {
 	public static String DESTINATION = "Destination";
 	public static String LAST_EXECUTION_LABEL = "Last execution on";
 	public static String CONFIRMATION_DIALOG_TITLE = "Confirmation";
-	public static String BACKUP_NAME_LABEL = "Backup name";
+	public static String BACKUP_NAME_LABEL(String backupName){
+		return "Backup name: " + backupName;
+	};
 	public static String SAVE_BUTTON = "Save";
 	public static String FILE_DOES_NOT_EXIST = "file doesn't exist";
 	public static String DIRECTORY = "Directory";

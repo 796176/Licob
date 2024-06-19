@@ -34,7 +34,7 @@ public class ChainConfigurationFrame extends LFrame {
 	private JCheckBox scriptCheckBox;
 	private ScriptArea scriptArea;
 	private ChainList chainList;
-	private JTextField nameField;
+	private final String backupName;
 	private final BackupList backupList;
 	private final BackupListNotificator backupListNotificator;
 
@@ -69,11 +69,13 @@ public class ChainConfigurationFrame extends LFrame {
 
 		backupList = list;
 		backupListNotificator = notificator;
+		backupName = name;
 
 		GridBagLayout bagLayout = new GridBagLayout();
 		setLayout(bagLayout);
 
 		GridBagConstraints nameConstraints = new GridBagConstraints();
+		nameConstraints.gridwidth = GridBagConstraints.REMAINDER;
 		nameConstraints.fill = GridBagConstraints.HORIZONTAL;
 		nameConstraints.insets =
 			new Insets(
@@ -82,20 +84,9 @@ public class ChainConfigurationFrame extends LFrame {
 				0,
 				Dimensions.DEFAULT_COMPONENT_OFFSET
 			);
-		LLabel nameLabel = new LLabel(Text.BACKUP_NAME_LABEL);
+		LLabel nameLabel = new LLabel(Text.BACKUP_NAME_LABEL(name));
 		bagLayout.setConstraints(nameLabel, nameConstraints);
 		add(nameLabel);
-
-		nameConstraints.insets =
-			new Insets(Dimensions.DEFAULT_COMPONENT_OFFSET, 0, 0, Dimensions.DEFAULT_COMPONENT_OFFSET);
-		nameConstraints.gridwidth = GridBagConstraints.REMAINDER;
-		nameField = new JTextField(name);
-		nameField.setBackground(Colors.LAST_LAYER);
-		nameField.setForeground(Colors.FONT_COLOR);
-		nameField.setCaretColor(Colors.FONT_COLOR);
-		nameField.setFont(Fonts.MEDIUM_DEFAULT);
-		bagLayout.setConstraints(nameField, nameConstraints);
-		add(nameField);
 
 		GridBagConstraints chainListConstraints = new GridBagConstraints();
 		chainListConstraints.weighty = 5;
@@ -187,7 +178,7 @@ public class ChainConfigurationFrame extends LFrame {
 	}
 
 	public String getBackupName() {
-		return nameField.getText();
+		return backupName;
 	}
 
 	public int getChainNumber() {
@@ -214,12 +205,11 @@ public class ChainConfigurationFrame extends LFrame {
 				);
 				return;
 			}
-			String name = nameField.getText();
 			ChainRule[] chainItems = chainList.getItems();
 			boolean scriptStatus = scriptCheckBox.isSelected();
 			String scriptContent = scriptArea.getContent();
 			try {
-				ChainSet.flushChainSet(name, chainItems, scriptContent, scriptStatus);
+				ChainSet.flushChainSet(backupName, chainItems, scriptContent, scriptStatus);
 				JOptionPane.showMessageDialog(
 					ChainConfigurationFrame.this,
 					Text.SaveDialog.SAVED,
