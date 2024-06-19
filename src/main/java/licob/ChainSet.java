@@ -108,9 +108,9 @@ public class ChainSet {
 				chainSet[ruleIndex] = new ChainRule();
 			    chainSet[ruleIndex].type = reader.readLine();
 				chainSet[ruleIndex].source = reader.readLine();
-				if (chainSet[ruleIndex].source.isEmpty()) chainSet[ruleIndex].type = null;
+				if (chainSet[ruleIndex].source.isEmpty()) chainSet[ruleIndex].source = null;
 				chainSet[ruleIndex].destination = reader.readLine();
-				if (chainSet[ruleIndex].destination.isEmpty()) chainSet[ruleIndex].type = null;
+				if (chainSet[ruleIndex].destination.isEmpty()) chainSet[ruleIndex].destination = null;
 
 				StringBuilder exceptions = new StringBuilder();
 				String line;
