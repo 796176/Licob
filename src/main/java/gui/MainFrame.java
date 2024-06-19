@@ -102,7 +102,7 @@ public class MainFrame extends LFrame{
 			String newBackupName = Text.DEFAULT_BACKUP_NAME + System.currentTimeMillis();
 			backupList.addBackupItem(newBackupName, 0, false, "", "-");
 			try {
-				ChainSet.addChainSet(newBackupName, new ChainRule[]{}, "", false);
+				ChainSet.createChainSet(newBackupName);
 			} catch (IOException exception) {
 				JOptionPane.showMessageDialog(
 					MainFrame.this,

@@ -219,7 +219,7 @@ public class ChainConfigurationFrame extends LFrame {
 			boolean scriptStatus = scriptCheckBox.isSelected();
 			String scriptContent = scriptArea.getContent();
 			try {
-				ChainSet.addChainSet(name, chainItems, scriptContent, scriptStatus);
+				ChainSet.flushChainSet(name, chainItems, scriptContent, scriptStatus);
 				JOptionPane.showMessageDialog(
 					ChainConfigurationFrame.this,
 					Text.SaveDialog.SAVED,

@@ -28,12 +28,44 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 
 public class ChainSet {
-	public static void addChainSet(String backupName, ChainRule[] items, String scriptContent, boolean isScriptEnabled) throws IOException {
+	public static void createChainSet(String backupName) throws IOException {
+		assert backupName != null;
+
+		String[] chainSets = new File(Configuration.CHAIN_SETS_DIRECTORY).list();
+		Arrays.sort(chainSets);
+		if (Arrays.binarySearch(chainSets, backupName) >= 0)
+			throw new IOException("The chain set with such name already exist");
+
+		File backupDirectory = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!backupDirectory.mkdir())
+			throw new IOException("Failed to create the " + backupDirectory + " directory");
+
+		try (FileWriter scriptStatus = new FileWriter(new File(backupDirectory, "_scriptstatus"))) {
+			scriptStatus.write(Boolean.toString(false));
+		}
+
+		if (!new File(backupDirectory, "_script").createNewFile()) {
+			throw new IOException("Failed to create an empty script file");
+		}
+	}
+
+	public static void flushChainSet(
+		String backupName, ChainRule[] items, String scriptContent, boolean isScriptEnabled
+	) throws IOException {
 		assert backupName != null && items != null && scriptContent != null;
 
-		Path chainSetDirectory = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName);
-		Files.createDirectories(chainSetDirectory);
-		
+		File chainSetDirectory = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (ChainSet.retrieveChainNumber(backupName) > 0) {
+			Files.walkFileTree(chainSetDirectory.toPath(), new SimpleFileVisitor<>() {
+				@Override
+				public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+					if (file.toFile().getName().matches("^-?\\d+$"))
+						Files.delete(file);
+					return FileVisitResult.CONTINUE;
+				}
+			});
+		}
+
 		for (int itemIndex = 0; itemIndex < items.length; itemIndex++) {
 			Path rulePath = Path.of(chainSetDirectory.toString(), Integer.toString(itemIndex));
 			try (BufferedWriter bw = new BufferedWriter(new FileWriter(rulePath.toString()), 8 * 1024)) {
