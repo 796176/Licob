@@ -24,8 +24,6 @@ import constants.Fonts;
 import constants.Text;
 import licob.BackupProcess;
 import licob.ChainSet;
-import licob.LicobEngine;
-import licob.LicobStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,6 +42,11 @@ public class BackupItem extends JPanel {
 	private final String scriptContent;
 	private final boolean isScriptActive;
 	private final BackupProcess backupProcess;
+	private BackupItemMenu itemMenu;
+	private int chainNumber;
+	private boolean scriptState;
+	private String script;
+	private String date;
 
 	public BackupItem(
 		BackupList bl,
@@ -60,6 +63,12 @@ public class BackupItem extends JPanel {
 		this.backupProcess = backupProcess;
 		scriptContent = script;
 		isScriptActive = bashScript;
+		itemMenu = new BackupItemMenu(bl, this);
+
+		this.chainNumber = chainNumber;
+		scriptState = bashScript;
+		this.script = script;
+		this.date = date;
 
 		addMouseListener(new PanelListener());
 		setMinimumSize(Dimensions.BACKUP_ITEM);
@@ -132,6 +141,22 @@ public class BackupItem extends JPanel {
 		return lastExecuted.getText().substring((Text.LAST_EXECUTION_LABEL + " ").length());
 	}
 
+	public int getChainNumber() {
+		return chainNumber;
+	}
+
+	public boolean getScriptState() {
+		return scriptState;
+	}
+
+	public String getScript() {
+		return script;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
 	public class DeleteButtonListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent actionEvent) {
@@ -156,9 +181,19 @@ public class BackupItem extends JPanel {
 	public class PanelListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent mouseEvent) {
-			BackupListNotificator notificator = new BackupListNotificator(BackupItem.this);
-			ChainConfigurationFrame chainConfigurationFrame =
-				new ChainConfigurationFrame(backupList, notificator, name.getText(), scriptContent, isScriptActive);
+			switch (mouseEvent.getButton()) {
+				case MouseEvent.BUTTON1:
+					BackupListNotificator notificator = new BackupListNotificator(BackupItem.this);
+					ChainConfigurationFrame chainConfigurationFrame =
+						new ChainConfigurationFrame(
+							backupList, notificator, name.getText(), scriptContent, isScriptActive
+						);
+					break;
+
+				case MouseEvent.BUTTON3:
+					itemMenu.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
+					break;
+			}
 		}
 	}
 

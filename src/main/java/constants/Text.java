@@ -18,6 +18,9 @@
 
 package constants;
 
+import gui.BackupItem;
+import gui.BackupItemMenu;
+
 public class Text {
 	public static String APP_NAME = "Lacob";
 	public static String ADD_BUTTON = "Add";
@@ -101,4 +104,12 @@ public class Text {
 		public static String CHAIN_SUCCESS = "\tStatus: success";
 		public static String INTERRUPTED = "The process was interrupted";
 	}
+	public static class BackupItemMenu {
+		public static String RENAME = "rename";
+	}
+	public static class RenameDialog {
+		public static String TITLE = "Input";
+		public static String MES = "A new backup item name:";
+	}
+	public static String FAILED_TO_RENAME_ALREADY_EXISTS = "A backup item with such name already exists";
 }

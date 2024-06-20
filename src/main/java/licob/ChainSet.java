@@ -204,4 +204,36 @@ public class ChainSet {
 
 		return Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
 	}
+
+	public static String[] getBackupItemNames() {
+		return new File(Configuration.CHAIN_SETS_DIRECTORY).list();
+	}
+
+	public static void renameBackupItem(String oldName, String newName) throws IOException {
+		assert oldName != null && newName != null;
+
+		Path oldBackupPath = Path.of(Configuration.CHAIN_SETS_DIRECTORY, oldName);
+		Files.walkFileTree(oldBackupPath, new SimpleFileVisitor<>() {
+			@Override
+			public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+				String newDir = dir.toString().replace(oldName, newName);
+				if (!new File(newDir).mkdir()) {
+					throw new IOException("Failed to create the " + newDir + " directory");
+				}
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				Files.move(file, Path.of(file.toString().replace(oldName, newName)));
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				Files.delete(dir);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+	}
 }
