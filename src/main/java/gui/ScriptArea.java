@@ -62,6 +62,7 @@ public class ScriptArea extends JScrollPane {
 		textArea.setBackground(Colors.LAST_LAYER);
 		textArea.setForeground(Colors.FONT_COLOR);
 		textArea.setEditable(true);
+		textArea.setFocusable(true);
 		touched = true;
 	}
 
@@ -69,6 +70,7 @@ public class ScriptArea extends JScrollPane {
 		textArea.setBackground(Colors.SCRIPT_AREA_COLOR_INACTIVE);
 		textArea.setForeground(Colors.SCRIPT_AREA_FONT_COLOR_INACTIVE);
 		textArea.setEditable(false);
+		textArea.setFocusable(false);
 		touched = true;
 	}
 
