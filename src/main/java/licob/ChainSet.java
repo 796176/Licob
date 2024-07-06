@@ -54,6 +54,9 @@ public class ChainSet {
 	) throws IOException {
 		assert backupName != null && items != null && scriptContent != null;
 
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return;
+
 		File chainSetDirectory = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
 		if (ChainSet.retrieveChainNumber(backupName) > 0) {
 			Files.walkFileTree(chainSetDirectory.toPath(), new SimpleFileVisitor<>() {
@@ -125,6 +128,9 @@ public class ChainSet {
 	public static void deleteChainSet(String backupName) throws IOException {
 		if (backupName == null) return;
 
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return;
+
 		Path backupPath = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName);
 		Files.walkFileTree(backupPath, new SimpleFileVisitor<>() {
 			@Override
@@ -192,6 +198,9 @@ public class ChainSet {
 	public static void updateDate(String backupName) throws IOException {
 		assert backupName != null;
 
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, backupName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return;
+
 		File dateFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_date").toFile();
 
 		try (FileWriter dateWriter = new FileWriter(dateFile)){
@@ -202,6 +211,9 @@ public class ChainSet {
 	public static File getScriptFile(String backupName) {
 		assert backupName != null;
 
+		File dateFile = Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
+		if (!(dateFile.exists() && dateFile.isFile())) return null;
+
 		return Path.of(Configuration.CHAIN_SETS_DIRECTORY, backupName, "_script").toFile();
 	}
 
@@ -211,6 +223,9 @@ public class ChainSet {
 
 	public static void renameBackupItem(String oldName, String newName) throws IOException {
 		assert oldName != null && newName != null;
+
+		File backupFile = new File(Configuration.CHAIN_SETS_DIRECTORY, oldName);
+		if (!(backupFile.exists() && backupFile.isDirectory())) return;
 
 		Path oldBackupPath = Path.of(Configuration.CHAIN_SETS_DIRECTORY, oldName);
 		Files.walkFileTree(oldBackupPath, new SimpleFileVisitor<>() {
