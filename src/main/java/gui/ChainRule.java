@@ -18,7 +18,9 @@
 
 package gui;
 
-public class ChainRule {
+import static java.util.Objects.requireNonNullElse;
+
+public class ChainRule implements Comparable<ChainRule> {
 	public String type;
 	public String source;
 	public String destination;
@@ -39,4 +41,15 @@ public class ChainRule {
 	}
 
 	public ChainRule() {}
+
+	@Override
+	public int compareTo(ChainRule rule) {
+		if (type.compareTo(rule.type) != 0) return type.compareTo(rule.type);
+		else if (requireNonNullElse(source, "").compareTo(requireNonNullElse(rule.source, "")) != 0)
+			return requireNonNullElse(source, "").compareTo(requireNonNullElse(rule.source, ""));
+		else if (requireNonNullElse(destination, "").compareTo(requireNonNullElse(rule.destination, "")) != 0)
+			return requireNonNullElse(destination, "").compareTo(requireNonNullElse(rule.destination, ""));
+		else if (exceptions.compareTo(rule.exceptions) != 0) return exceptions.compareTo(rule.exceptions);
+		else return 0;
+	}
 }
