@@ -43,6 +43,14 @@ public class ChainRule implements Comparable<ChainRule> {
 	public ChainRule() {}
 
 	@Override
+	public boolean equals(Object rule) {
+		if (rule instanceof ChainRule) {
+			return compareTo((ChainRule) rule) == 0;
+		}
+		return false;
+	}
+
+	@Override
 	public int compareTo(ChainRule rule) {
 		if (type.compareTo(rule.type) != 0) return type.compareTo(rule.type);
 		else if (requireNonNullElse(source, "").compareTo(requireNonNullElse(rule.source, "")) != 0)
