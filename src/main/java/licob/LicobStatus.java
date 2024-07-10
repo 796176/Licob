@@ -69,7 +69,7 @@ public class LicobStatus {
 	}
 
 	void setTotal(long v){
-		assert v > 0;
+		assert v >= 0;
 		total = v;
 	}
 
@@ -87,7 +87,7 @@ public class LicobStatus {
 	}
 
 	void setCurrentTotal(long v) {
-		assert v > 0;
+		assert v >= 0;
 		currentTotal = v;
 	}
 
