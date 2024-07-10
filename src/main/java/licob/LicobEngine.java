@@ -31,7 +31,7 @@ public class LicobEngine implements LicobEngineInterface {
 
 	@Override
 	public void backupContent(File source, File destination, File[] exceptions) throws IOException {
-		assert source != null && dst != null && exceptions != null;
+		assert source != null && destination != null && exceptions != null;
 
 		dst = destination;
 		src = source;
@@ -72,7 +72,7 @@ public class LicobEngine implements LicobEngineInterface {
 
 	@Override
 	public void createBackup(File source, File destination, File[] exceptions) throws IOException {
-		assert source != null && dst != null && exceptions != null;
+		assert source != null && destination != null && exceptions != null;
 
 		File[] parentExceptions = source.getParentFile().listFiles(pathname -> !pathname.equals(source));
 		exceptions = Arrays.copyOf(exceptions, exceptions.length + parentExceptions.length);
